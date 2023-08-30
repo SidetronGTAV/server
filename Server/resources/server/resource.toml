@@ -1,0 +1,7 @@
+client-type = "js"
+client-main = "client/main.js"
+type = "csharp"
+main = "bin/Controller.dll"
+client-files = [
+    "client/*"
+]
