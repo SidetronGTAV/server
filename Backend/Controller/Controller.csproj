@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>./bin/debug</OutputPath>
+      <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AltV.Net" Version="14.0.2" />
+      <PackageReference Include="AltV.Net.Async" Version="14.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AllOutputFiles Include="$(OutputPath)\publish\*.*" />
+    </ItemGroup>
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\Common\Common.csproj" />
+      <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    </ItemGroup>
+
+
+
+
+
+
+
+    <Target Name="CopyFiles" AfterTargets="publish">
+        <PropertyGroup>
+            <CopiedFiles>$(OutputPath)\publish\*.*</CopiedFiles>
+            <TargetLocation Condition=" '$(Configuration)' == 'Release' ">../../Server/resources/server/bin</TargetLocation>
+        </PropertyGroup>
+        <Copy Condition=" '$(TargetLocation)' != '' " SourceFiles="@(AllOutputFiles)" DestinationFolder="$(TargetLocation)" SkipUnchangedFiles="false" />
+    </Target>
+    
+</Project>

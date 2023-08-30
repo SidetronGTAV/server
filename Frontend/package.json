@@ -1,0 +1,21 @@
+{
+  "name": "altv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "BuildClient": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@altv/types-client": "^2.9.0",
+    "@altv/types-natives": "^1.5.4",
+    "@altv/types-shared": "^1.6.0",
+    "@altv/types-webview": "^1.0.6"
+  },
+  "dependencies": {
+    "typescript": "^5.2.2"
+  },
+  "type": "module"
+}

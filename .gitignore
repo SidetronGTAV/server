@@ -1,0 +1,9 @@
+node_modules
+server/*
+!resource.toml
+!server.toml
+*.suo
+*.user
+bin
+obj
+packages
