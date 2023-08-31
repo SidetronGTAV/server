@@ -3,13 +3,14 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
 
 
     <ItemGroup>
-      <PackageReference Include="AltV.Net" Version="14.0.2" />
+        <PackageReference Include="AltV.Net" Version="14.0.2"/>
+        <PackageReference Include="AltV.Net.Async" Version="14.0.2" />
     </ItemGroup>
+
 
 
 

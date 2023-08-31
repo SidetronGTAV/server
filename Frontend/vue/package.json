@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@altv/types-webview": "^1.0.6",
+    "prettier": "^3.0.3",
     "vue": "^3.3.4"
   },
   "devDependencies": {
