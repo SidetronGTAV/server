@@ -3,9 +3,9 @@ using AltV.Net.Async;
 using AltV.Net.Elements.Entities;
 using Common.Models;
 
-namespace Controller.Handler.Base;
+namespace Controller.Controller.Base;
 
-public class ConsoleHandler : IScript
+public class ConsoleController : IScript
 {
     [AsyncClientEvent("Server:Console:SpawnVehicle")]
     public static async Task OnSpawnVehicle(MyPlayer player, string vehicleName)
