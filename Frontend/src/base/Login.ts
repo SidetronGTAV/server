@@ -16,8 +16,7 @@ export class Login {
     private async getOAuthToken(): Promise<void> {
         try {
             const token: string = await alt.Discord.requestOAuth2Token(Login.discordApp);
-            alt.log("Emit Server ")
-            alt.emitServer('Server:Login:SendToken', token)
+            alt.emitServer('Server:Login:LoginUser', token);
         } catch (e) {
             alt.logError(e);
         }

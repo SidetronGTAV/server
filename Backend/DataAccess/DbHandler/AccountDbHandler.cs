@@ -1,4 +1,5 @@
-﻿using Common.Models.Base;
+﻿using Common.Models;
+using Common.Models.Base;
 using Common.Models.Discord;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +13,24 @@ public class AccountDbHandler
         return await db.Accounts.FirstOrDefaultAsync(x => x.DiscordId == discordId);
     }
 
-    public static async Task<Account> CreateAccountAsync(DiscordUser discordUser)
+    public static async Task<Account> CreateAccountAsync(MyPlayer player, DiscordUser discordUser)
     {
+        var altDiscordAccount = await GetAccountByDiscordIdAsync(player.DiscordId);
+
+        if (altDiscordAccount != null)
+        {
+            player.Kick(
+                "Dein Discord Account wo du dich gerade eingeloggt hast, ist mit nicht der selbe wie der wo du dich das letzte mal eingeloggt hast! Bitte Wende dich an den Support!");
+            return null;
+        }
+
         var account = new Account()
         {
             DiscordId = discordUser.id,
-            DiscordUsername = discordUser.username
+            DiscordUsername = discordUser.username,
+            HardwareIdHash = player.HardwareIdHash,
+            HardwareIdExHash = player.HardwareIdExHash,
+            SocialClubId = player.SocialClubId,
         };
 
         await using var db = new DbContext();

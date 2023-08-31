@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Common.Models;
 using Common.Models.Discord;
 using DataAccess;
 using DataAccess.DbHandler;
@@ -23,8 +24,9 @@ public class LoginHandler
         return await response.Content.ReadFromJsonAsync<DiscordUser>();
     }
 
-    public static async Task HandleUserLoginAsync(DiscordUser discordUser)
+    public static async Task HandleUserLoginAsync(MyPlayer player, DiscordUser discordUser)
     {
-        var account = await AccountDbHandler.GetAccountByDiscordIdAsync(discordUser.id) ?? await AccountDbHandler.CreateAccountAsync(discordUser);
+        var account = await AccountDbHandler.GetAccountByDiscordIdAsync(discordUser.id) ??
+                      await AccountDbHandler.CreateAccountAsync(player, discordUser);
     }
 }

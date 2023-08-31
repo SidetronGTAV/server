@@ -17,8 +17,10 @@ public class LoginController : IScript
         var discordUser = await LoginHandler.HandleDiscordUserAsync(token);
         if (discordUser == null)
         {
-             throw new Exception("No Discord User found!");
+            player.Kick("Dein Discord Account wurde nicht gefunden! Bitte Wende dich an den Support!");
+            return;
         }
-        await LoginHandler.HandleUserLoginAsync(discordUser);
+
+        await LoginHandler.HandleUserLoginAsync(player, discordUser);
     }
 }
