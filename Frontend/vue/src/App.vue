@@ -1,6 +1,6 @@
 <template>
   <div>
-      <CharacterSelector />
+    <CharacterSelector/>
   </div>
 </template>
 <script setup lang="ts">
