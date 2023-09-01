@@ -12,6 +12,6 @@ public class PlayerConnectController : IScript
     [ScriptEvent(ScriptEventType.PlayerConnect)]
     public void OnPlayerConnection(MyPlayer player, string reason)
     {
-        PlayerConnectHandler.HandlePlayerConnect(player, reason);
+        PlayerConnectHandler.HandlePlayerConnect(player);
     }
 }

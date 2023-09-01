@@ -1,4 +1,6 @@
-﻿namespace Common.Models.Base;
+﻿using Common.Models.Base;
+
+namespace Common.Models.UserStuff;
 
 public class Account : IdBase
 {
@@ -13,4 +15,10 @@ public class Account : IdBase
     public ulong HardwareIdExHash { get; set; }
 
     public ulong SocialClubId { get; set; }
+    
+    public bool Whitelisted { get; set; }
+    
+    public DateTime? WhitelistedAt { get; set; }
+    
+    public List<Character> Characters { get; set; }
 }

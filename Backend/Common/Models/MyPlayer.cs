@@ -8,6 +8,10 @@ namespace Common.Models;
 
 public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
 {
+    public int AccountId { get; set; }
+    
+    public long AccountDiscordId { get; set; }
+    
     public MyPlayer(ICore core, IntPtr nativePointer, ushort id) : base(core, nativePointer, id)
     {
     }

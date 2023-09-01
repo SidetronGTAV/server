@@ -1,6 +1,7 @@
 ﻿using Common.Models;
 using Common.Models.Base;
 using Common.Models.Discord;
+using Common.Models.UserStuff;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.DbHandler;

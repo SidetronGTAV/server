@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Login/>
+      <CharacterSelector />
   </div>
 </template>
 <script setup lang="ts">
-import Login from './views/Login.vue'
+import CharacterSelector from "./views/CharacterSelector.vue";
 </script>

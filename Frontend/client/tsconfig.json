@@ -18,7 +18,7 @@
     // If you have subfolder where all your ts files are located you can add the following line to specify the root folder
     "rootDir": "./src/",
     // Here you can set the output folder where the javascript files will be generated
-    "outDir": "../Server/resources/server/client",
+    "outDir": "../../Server/resources/server/client",
 
     // Here you specify the TypeScript (IDE) where the alt:V types are located
     "typeRoots": ["./node_modules/@altv"]

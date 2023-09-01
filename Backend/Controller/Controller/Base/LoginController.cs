@@ -22,5 +22,7 @@ public class LoginController : IScript
         }
 
         await LoginHandler.HandleUserLoginAsync(player, discordUser);
+        
+        player.Emit("Client:Character:Start");
     }
 }

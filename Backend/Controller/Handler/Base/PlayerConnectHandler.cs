@@ -4,18 +4,18 @@ using AltV.Net.Elements.Entities;
 using AltV.Net.Enums;
 using AltV.Net.Events;
 using Common.Models;
+using Controller.Utility;
 using DataAccess;
 
 namespace Controller.Handler.Base;
 
 public static class PlayerConnectHandler
 {
-    public static void HandlePlayerConnect(MyPlayer player, string reason)
+    public static void HandlePlayerConnect(MyPlayer player)
     {
-        player.SetDateTime(DateTime.Now);
+        player.Dimension = DimensionHandler.GetPrivateDimension();
+        player.Position = new Position(-1562.5055f, -579.6528f, 108.50769f);
         player.Model = (uint)PedModel.FreemodeMale01;
-        player.Spawn(new Position(199, -934, 31), 0);
-        player.Emit("Client:Login:OpenLogin");
-        Console.WriteLine("Player Connected");
+        player.Frozen = true;
     }
 }
