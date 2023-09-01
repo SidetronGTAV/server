@@ -8,5 +8,7 @@ public class Character: IdBase
     
     public string Lastname { get; set; }
     
+    public int AccountId { get; set; }
+    
     public Account Account { get; set; }
 }

@@ -43,8 +43,9 @@ function joinCharacter(id: number) {
 
 onMounted(() => {
   if ('alt' in window) {
-    alt.on("Webview:Character:OpenSelector", (clientCharacters: { fullname: string, id: number }[]) => {
+    alt.on("Webview:Character:OpenSelector", (show: boolean, clientCharacters: { fullname: string, id: number }[]) => {
       characters.value = clientCharacters;
+      showCharacter.value = show;
     })
   }
 })

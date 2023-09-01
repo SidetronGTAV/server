@@ -28,5 +28,11 @@ public class LoginHandler
     {
         var account = await AccountDbHandler.GetAccountByDiscordIdAsync(discordUser.id) ??
                       await AccountDbHandler.CreateAccountAsync(player, discordUser);
+
+        if (!account.Whitelisted)
+        {
+            player.Kick("Du bist nicht gewhitelistet!");
+            return;
+        }
     }
 }

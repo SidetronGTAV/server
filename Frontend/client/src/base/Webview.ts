@@ -8,9 +8,9 @@ export class Webview {
         Webview.Webview = new alt.WebView('http://resource/client/html/index.html')
     }
 
-    public static OpenUi(emit: string): boolean {
+    public static OpenUi(emit: string, ...args: any[]): boolean {
         if (Webview._isUiOpen) return false;
-        Webview.Webview.emit(emit, true);
+        Webview.Webview.emit(emit, true, ...args);
         Webview._isUiOpen = true;
         Webview.HandleControls(true);
         Webview.Webview.focus();

@@ -13,4 +13,6 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     }
 
     public DbSet<Account> Accounts { get; set; }
+    
+    public DbSet<Character> Characters { get; set; }
 }

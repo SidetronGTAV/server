@@ -11,7 +11,7 @@ public class AccountDbHandler
     public static async Task<Account?> GetAccountByDiscordIdAsync(long discordId)
     {
         await using var db = new DbContext();
-        return await db.Accounts.FirstOrDefaultAsync(x => x.DiscordId == discordId);
+        return await db.Accounts.Include(a => a.Characters).FirstOrDefaultAsync(x => x.DiscordId == discordId);
     }
 
     public static async Task<Account> CreateAccountAsync(MyPlayer player, DiscordUser discordUser)
