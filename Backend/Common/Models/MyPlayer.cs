@@ -12,6 +12,8 @@ public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
     
     public long AccountDiscordId { get; set; }
     
+    public bool isLoggin { get; set; }
+    
     public MyPlayer(ICore core, IntPtr nativePointer, ushort id) : base(core, nativePointer, id)
     {
     }

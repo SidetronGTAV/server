@@ -14,6 +14,12 @@ public class LoginController : IScript
     [AsyncClientEvent("Server:Login:LoginUser")]
     public async Task OnLoginUser(MyPlayer player, string token)
     {
+        if (player.isLoggin)
+        {
+            //TODO: Ban User
+            return;
+        }
+        
         var discordUser = await LoginHandler.HandleDiscordUserAsync(token);
         if (discordUser == null)
         {
@@ -21,8 +27,14 @@ public class LoginController : IScript
             return;
         }
 
-        await LoginHandler.HandleUserLoginAsync(player, discordUser);
+        var characters = await LoginHandler.HandleUserLoginAsync(player, discordUser);
         
-        player.Emit("Client:Character:Start");
+        if (characters.Count == 0)
+        {
+            player.Emit("Client:Character:Create");
+            return;
+        }
+        
+        player.Emit("Client:Character:Start", characters);
     }
 }

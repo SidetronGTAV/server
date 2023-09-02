@@ -6,10 +6,10 @@
         <div class="max-h-60 overflow-y-scroll">
           <div v-for="character in characters"
                class="bg-base-100/30 hover:bg-base-100/20 p-2 rounded-lg w-72 grid grid-cols-2 items-center gap-x-5 my-3"
-               @click="selectCharacter(character.id)">
+               @click="changeCharacter(character.id)">
             <div>{{ character.fullname }}</div>
             <div class="flex justify-end items-center">
-              <button class="btn btn-sm w-10" @click="joinCharacter(character.id)">
+              <button class="btn btn-sm w-10" @click="selectCharacter(character.id)">
                 <font-awesome-icon icon="fa-solid fa-play"/>
               </button>
             </div>
@@ -22,28 +22,22 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 
-const characters = ref<{ fullname: string, id: number }[]>([{fullname: 'Nico Test', id: 1}, {
-  fullname: 'Nico Test',
-  id: 1
-}, {
-  fullname: 'Nico Test',
-  id: 1
-}, {fullname: 'Nico Test', id: 1}, {fullname: 'Nico Test', id: 1}])
+const characters = ref<Character[]>([]);
 const showCharacter = ref(false)
+
+function changeCharacter(id: number) {
+  if ('alt' in window)
+    alt.emit("Client:Character:ChangeCharacter", id)
+}
 
 function selectCharacter(id: number) {
   if ('alt' in window)
     alt.emit("Client:Character:SelectCharacter", id)
 }
 
-function joinCharacter(id: number) {
-  if ('alt' in window)
-    alt.emit("Client:Character:JoinCharacter", id)
-}
-
 onMounted(() => {
   if ('alt' in window) {
-    alt.on("Webview:Character:OpenSelector", (show: boolean, clientCharacters: { fullname: string, id: number }[]) => {
+    alt.on("Webview:Character:OpenSelector", (show: boolean, clientCharacters: Character[]) => {
       characters.value = clientCharacters;
       showCharacter.value = show;
     })

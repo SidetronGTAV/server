@@ -1,7 +1,10 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using AutoMapper;
+using Common.Dto.UserStuff;
 using Common.Models;
 using Common.Models.Discord;
+using Common.Models.UserStuff;
 using DataAccess;
 using DataAccess.DbHandler;
 
@@ -24,15 +27,19 @@ public class LoginHandler
         return await response.Content.ReadFromJsonAsync<DiscordUser>();
     }
 
-    public static async Task HandleUserLoginAsync(MyPlayer player, DiscordUser discordUser)
+    public static async Task<List<CharacterSmallDto>> HandleUserLoginAsync(MyPlayer player, DiscordUser discordUser)
     {
         var account = await AccountDbHandler.GetAccountByDiscordIdAsync(discordUser.id) ??
                       await AccountDbHandler.CreateAccountAsync(player, discordUser);
 
         if (!account.Whitelisted)
         {
-            player.Kick("Du bist nicht gewhitelistet!");
-            return;
+            player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
+            return null;
         }
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<Character, CharacterSmallDto>());
+        var mapper = new Mapper(config);
+        var characters = mapper.Map<List<Character>, List<CharacterSmallDto>>(account.Characters);
+        return characters;
     }
 }
