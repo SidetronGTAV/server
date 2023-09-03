@@ -1,5 +1,6 @@
 ﻿using AltV.Net;
 using AltV.Net.Async;
+using Common.Dto.UserStuff.CharacterCreator;
 using Common.Models;
 
 namespace Controller.Controller.Base;
@@ -18,5 +19,16 @@ public class CharacterController : IScript
     {
         Task.Yield();
         throw new NotImplementedException();
+    }
+
+    [AsyncClientEvent("Server:Character:CreateCharacter")]
+    public async Task OnCreateCharacterAsync(MyPlayer player, CharacterSkinDto characterSkinDto)
+    {
+        if (player.isInCharacter)
+        {
+            //TODO: Ban User
+            return;
+        }
+        
     }
 }

@@ -16,7 +16,7 @@ export abstract class Events {
         handleCharCreator: 'Webview:CharCreator:handle',
         setCharCreatorProperty: 'Client:CharCreator:setProperty',
         closeCharCreator: 'Client:CharCreator:close',
-        setCharCreatorData: 'Server:CharCreator:setData',
+        setCharCreatorData: 'Server:Character:CreateCharacter',
         setSex: 'Client:CharCreator:setSex',
         setSexServer: 'Server:CharCreator:SetSex',
         sexIsSet: 'Client:CharCreator:SexIsSet',

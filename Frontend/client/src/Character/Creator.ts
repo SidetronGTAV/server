@@ -136,7 +136,7 @@ export class CharCreator {
         Entity.Freeze(alt.Player.local, false);
         Entity.Visible(alt.Player.local, true);
 
-        alt.emitServer(Events.CharCreator.setCharCreatorData, JSON.stringify(CharCreator.previousData));
+        alt.emitServer(Events.CharCreator.setCharCreatorData, CharCreator.previousData);
     }
 
     private static StartPed(): void {

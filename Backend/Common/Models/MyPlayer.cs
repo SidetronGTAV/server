@@ -14,6 +14,8 @@ public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
     
     public bool isLoggin { get; set; }
     
+    public bool isInCharacter { get; set; }
+    
     public MyPlayer(ICore core, IntPtr nativePointer, ushort id) : base(core, nativePointer, id)
     {
     }
