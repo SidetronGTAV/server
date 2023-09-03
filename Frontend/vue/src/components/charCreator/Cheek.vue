@@ -34,7 +34,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import TitleBox from './TitleBox.vue';
 import RangePicker from './RangePicker.vue';
 import {toRefs, defineProps} from "vue";

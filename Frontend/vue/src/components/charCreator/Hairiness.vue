@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Title from '../shared/Head.vue';
 import TitleBox from './TitleBox.vue';
 import RangePicker from './RangePicker.vue';

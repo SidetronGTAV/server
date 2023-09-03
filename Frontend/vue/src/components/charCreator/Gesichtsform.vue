@@ -14,7 +14,7 @@
   <Neck :object="data"/>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Title from '../shared/Head.vue';
 import Eyes from './Eyes.vue';
 import Nose from './Nose.vue';

@@ -23,7 +23,8 @@
     "noFallthroughCasesInSwitch": true,
     "typeRoots": [
       "./node_modules/@altv"
-    ]
+    ],
+    "allowJs": true
   },
   "include": [
     "src/**/*.ts",

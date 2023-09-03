@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import RangePicker from './RangePicker.vue';
 import {toRefs, defineProps, ref} from "vue";
 

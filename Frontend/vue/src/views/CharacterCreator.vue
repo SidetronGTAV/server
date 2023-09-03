@@ -134,7 +134,7 @@ const data = ref({
   },
 })
 const count = ref(0);
-const showCharCreator = ref(true);
+const showCharCreator = ref(false);
 
 function setCharacter() {
   if ("alt" in window) {
@@ -158,8 +158,7 @@ watch(data, (newValue) => {
 onMounted(() => {
   console.log("CharCreator.vue mounted");
   if ("alt" in window) {
-    alt.on("Webview:CharCreator:handle", (state) => {
-      console.log("open");
+    alt.on("Webview:CharCreator:handle", (state: boolean) => {
       showCharCreator.value = state;
     });
   }

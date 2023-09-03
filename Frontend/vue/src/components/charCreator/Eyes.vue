@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import RangePicker from './RangePicker.vue';
 import TitleBox from './TitleBox.vue';
 import ColorPicker from './ColorPicker.vue';

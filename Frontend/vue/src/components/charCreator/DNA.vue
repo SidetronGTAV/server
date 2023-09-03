@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Title from '../shared/Head.vue';
 
 import TextField from './TextField.vue';
@@ -85,7 +85,7 @@ const manClass = ref('border-2 border-[#C52223FF]');
 const womanClass = ref('border-none');
 const isSkinColor = ref(false);
 
-function setSex(bool: boolean): void {
+function setSex(bool) {
   bool ? (data.value.Sex = 1) : data.value.Sex = 0;
   manClass.value = !bool ? 'border-2 border-[#C52223FF]' : 'border-none';
   womanClass.value = bool ? 'border-2 border-[#C52223FF]' : 'border-none';

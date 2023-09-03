@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import TitleBox from './TitleBox.vue';
 import ColorPicker from './ColorPicker.vue';
 import RangePicker from './RangePicker.vue';

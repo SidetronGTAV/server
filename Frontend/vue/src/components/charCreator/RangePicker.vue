@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 
 import {ref, toRefs, watch, defineProps} from "vue";
 

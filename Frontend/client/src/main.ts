@@ -3,14 +3,14 @@ import {Console} from "./base/Console.js";
 import {Webview} from "./base/Webview.js";
 import {Login} from "./base/Login.js";
 import {Character} from "./Character/Character.js";
-import {Player} from "./Utilities/Player.js";
-
+import {CharCreator} from "./Character/Creator.js";
 
 alt.on('connectionComplete', async () => {
     alt.log("ConnectionComplete");
     new Console();
     new Webview();
     new Character();
+    new CharCreator();
     alt.loadDefaultIpls();
     loadIpls();
     await Login.getOAuthToken();
