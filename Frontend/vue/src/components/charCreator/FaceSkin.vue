@@ -27,7 +27,7 @@
             :class="i === object.SkinFace[dataKeyMum] ? 'border-2 border-[#C52223FF]' : 'border-none'"
             @click="object.SkinFace[dataKeyMum] = i"
         >
-          <img :src="`../../assets/img/charCreator/female/${v}.png`" :alt="v"/>
+          <img :src="`/img/charCreator/female/${v}.png`" :alt="v"/>
           <div class="text-white text-xl font-bold font-sans text-center">{{ v }}</div>
         </div>
       </div>
@@ -39,7 +39,7 @@
             :class="i === object.SkinFace[dataKeyDad] ? 'border-2 border-[#C52223FF]' : 'border-none'"
             @click="object.SkinFace[dataKeyDad] = i"
         >
-          <img :src="`../../assets/img/charCreator/male/${v}.png`" :alt="v"/>
+          <img :src="`/img/charCreator/male/${v}.png`" :alt="v"/>
           <div class="text-white text-xl font-bold font-sans text-center">{{ v }}</div>
         </div>
       </div>
