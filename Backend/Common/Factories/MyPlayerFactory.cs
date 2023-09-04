@@ -6,8 +6,8 @@ namespace Common.Factories;
 
 public class MyPlayerFactory : IEntityFactory<IPlayer>
 {
-    public IPlayer Create(ICore core, IntPtr playerPointer, ushort id)
+    public IPlayer Create(ICore core, IntPtr entityPointer, uint id)
     {
-        return new MyPlayer(core, playerPointer, id);
+        return new MyPlayer(core, entityPointer, id);
     }
 }

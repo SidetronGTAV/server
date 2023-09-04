@@ -2,6 +2,7 @@
 using AltV.Net.Async;
 using Common.Dto.UserStuff.CharacterCreator;
 using Common.Models;
+using Newtonsoft.Json;
 
 namespace Controller.Controller.Base;
 
@@ -22,13 +23,15 @@ public class CharacterController : IScript
     }
 
     [AsyncClientEvent("Server:Character:CreateCharacter")]
-    public async Task OnCreateCharacterAsync(MyPlayer player, CharacterSkinDto characterSkinDto)
+    public async Task OnCreateCharacterAsync(MyPlayer player, string characterSkin)
     {
         if (player.isInCharacter)
         {
             //TODO: Ban User
             return;
         }
-        
+
+        var characterSkinDto = JsonConvert.DeserializeObject<CharacterSkinDto>(characterSkin);
+
     }
 }

@@ -16,7 +16,7 @@ public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
     
     public bool isInCharacter { get; set; }
     
-    public MyPlayer(ICore core, IntPtr nativePointer, ushort id) : base(core, nativePointer, id)
+    public MyPlayer(ICore core, IntPtr nativePointer, uint id) : base(core, nativePointer, id)
     {
     }
 
