@@ -1,6 +1,9 @@
-﻿namespace Common.Dto.UserStuff.CharacterCreator;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class CharacterSkinMouthAreaDto
+namespace Common.Models.UserStuff.CharacterSkin;
+
+[Owned]
+public class CharacterSkinMouthArea
 {
     public float ChimpWidth { get; set; }
     public float ChinHeight { get; set; }

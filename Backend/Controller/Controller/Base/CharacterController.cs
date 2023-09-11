@@ -1,8 +1,9 @@
-﻿using AltV.Net;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using AltV.Net;
 using AltV.Net.Async;
-using Common.Dto.UserStuff.CharacterCreator;
 using Common.Models;
-using Newtonsoft.Json;
+using Common.Models.UserStuff.CharacterSkin;
 
 namespace Controller.Controller.Base;
 
@@ -14,7 +15,7 @@ public class CharacterController : IScript
         Task.Yield();
         throw new NotImplementedException();
     }
-    
+
     [AsyncClientEvent("Server:Character:ChangeCharacter")]
     public async Task ChangeCharacterAsync(MyPlayer player, int id)
     {
@@ -25,13 +26,12 @@ public class CharacterController : IScript
     [AsyncClientEvent("Server:Character:CreateCharacter")]
     public async Task OnCreateCharacterAsync(MyPlayer player, string characterSkin)
     {
-        if (player.isInCharacter)
+        if (player.isInCharacter || player.MaxCharacters <= player.Characters.Count)
         {
             //TODO: Ban User
             return;
         }
 
-        var characterSkinDto = JsonConvert.DeserializeObject<CharacterSkinDto>(characterSkin);
-
+        var characterSkinDto = JsonSerializer.Deserialize<CharacterSkin>(characterSkin);
     }
 }

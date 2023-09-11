@@ -1,6 +1,9 @@
-﻿namespace Common.Dto.UserStuff.CharacterCreator;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class CharacterSkinHairinessDto
+namespace Common.Models.UserStuff.CharacterSkin;
+
+[Owned]
+public class CharacterSkinHairiness
 {
     public byte Hair { get; set; }
     public byte HairColorMain { get; set; }

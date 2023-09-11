@@ -32,6 +32,7 @@ public class AccountDbHandler
             HardwareIdHash = player.HardwareIdHash,
             HardwareIdExHash = player.HardwareIdExHash,
             SocialClubId = player.SocialClubId,
+            MaxCharacters = 1
         };
 
         await using var db = new DbContext();

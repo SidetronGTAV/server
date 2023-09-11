@@ -1,6 +1,9 @@
-﻿namespace Common.Dto.UserStuff.CharacterCreator;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class CharacterSkinLipDto
+namespace Common.Models.UserStuff.CharacterSkin;
+
+[Owned]
+public class CharacterSkinLip
 {
     public byte LipStick { get; set; }
     public float LipStickOpacity { get; set; }

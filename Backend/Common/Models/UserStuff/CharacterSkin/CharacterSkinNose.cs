@@ -1,6 +1,9 @@
-﻿namespace Common.Dto.UserStuff.CharacterCreator;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class CharacterSkinNoseDto
+namespace Common.Models.UserStuff.CharacterSkin;
+
+[Owned]
+public class CharacterSkinNose
 {
     public float NoseWidth { get; set; }
     public float NoseHeight { get; set; }

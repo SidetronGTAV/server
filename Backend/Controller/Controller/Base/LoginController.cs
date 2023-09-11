@@ -19,7 +19,7 @@ public class LoginController : IScript
             //TODO: Ban User
             return;
         }
-        
+
         var discordUser = await LoginHandler.HandleDiscordUserAsync(token);
         if (discordUser == null)
         {
@@ -28,13 +28,13 @@ public class LoginController : IScript
         }
 
         var characters = await LoginHandler.HandleUserLoginAsync(player, discordUser);
-        
+
         if (characters.Count == 0)
         {
             player.Emit("Client:Character:Create");
             return;
         }
-        
+
         player.Emit("Client:Character:Start", characters);
     }
 }

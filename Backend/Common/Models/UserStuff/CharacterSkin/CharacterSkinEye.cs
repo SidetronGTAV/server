@@ -1,6 +1,9 @@
-﻿namespace Common.Dto.UserStuff.CharacterCreator;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class CharacterSkinEyeDto
+namespace Common.Models.UserStuff.CharacterSkin;
+
+[Owned]
+public class CharacterSkinEye
 {
     public byte EyeColor { get; set; }
     public float EyeShape { get; set; }

@@ -7,6 +7,7 @@ import {Camera} from "../Utilities/Camera.js";
 import {Entity} from "../base/Entity.js";
 import {Ped} from "../base/Ped.js";
 import {System} from "../Utilities/System.js";
+import {CharacterSex} from "../Enums/CharacterSex.js";
 
 export class CharCreator {
     private static previousData: ICharCreator = {
@@ -153,7 +154,7 @@ export class CharCreator {
     }
 
     private static ChangeSex(index: number): void {
-        if (index === 1) {
+        if (index === CharacterSex.Male) {
             const tick = alt.everyTick(() => {
                 if (!native.hasModelLoaded(alt.hash('mp_m_freemode_01'))) {
                     native.requestModel(alt.hash('mp_m_freemode_01'));

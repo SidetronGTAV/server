@@ -37,6 +37,7 @@ public class LoginHandler
             player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
             return null;
         }
+
         var config = new MapperConfiguration(cfg => cfg.CreateMap<Character, CharacterSmallDto>());
         var mapper = new Mapper(config);
         var characters = mapper.Map<List<Character>, List<CharacterSmallDto>>(account.Characters);
