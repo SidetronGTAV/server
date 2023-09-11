@@ -6,16 +6,22 @@ using AltV.Net.Events;
 using Common.Models;
 using Controller.Utility;
 using DataAccess;
+using DataAccess.DbHandler;
 
 namespace Controller.Handler.Base;
 
-public static class PlayerConnectHandler
+public static class PlayerHandler
 {
     public static void HandlePlayerConnect(MyPlayer player)
     {
         player.Dimension = DimensionHandler.GetPrivateDimension();
         player.Position = new Position(-1562.5055f, -579.6528f, 108.50769f);
         player.Model = (uint)PedModel.FreemodeMale01;
-        player.Frozen = true;
+        player.Frozen = false;
+    }
+    
+    public static void HandlePlayerDisconnect(MyPlayer player)
+    {
+        CharacterDbHandler.SaveCharacterPosition(player.isInCharacterId, player.Position);
     }
 }

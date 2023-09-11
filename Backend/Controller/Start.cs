@@ -18,6 +18,7 @@ internal class Start : AsyncResource
         }
 
         Console.WriteLine("Started");
+        new ShitSaver();
     }
 
     public override void OnStop()

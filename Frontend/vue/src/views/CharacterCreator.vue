@@ -48,6 +48,9 @@ import Hairiness from "../components/charCreator/Hairiness.vue";
 import {onMounted, ref, watch} from "vue";
 
 const data = ref({
+  Firstname: "",
+  Lastname: "",
+  Birthday: new Date(),
   Sex: 0,
   SkinFace: {
     ShapeFirstId: 0,

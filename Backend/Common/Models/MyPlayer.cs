@@ -15,7 +15,7 @@ public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
 
     public bool isLoggin { get; set; }
 
-    public bool isInCharacter { get; set; }
+    public int isInCharacterId { get; set; } = 0;
 
     public int MaxCharacters { get; set; }
 

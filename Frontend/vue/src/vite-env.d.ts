@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
 interface Character {
-    fullname: string,
-    id: number
+    Fullname: string,
+    Id: number
 }

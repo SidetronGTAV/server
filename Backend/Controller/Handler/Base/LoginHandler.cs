@@ -38,15 +38,15 @@ public class LoginHandler
             return null;
         }
 
-        
-        
-        var config = new MapperConfiguration(cfg => cfg.CreateMap<Character, CharacterSmallDto>());
+        var config = new MapperConfiguration(cfg =>
+            cfg.CreateMap<Character, CharacterSmallDto>().ForMember(ch => ch.Fullname,
+                src => src.MapFrom(ch => $"{ch.Firstname} {ch.Lastname}")));
         var mapper = new Mapper(config);
         var characters = mapper.Map<List<Character>, List<CharacterSmallDto>>(account.Characters);
         SetAccountData(player, account, characters);
         return characters;
     }
-    
+
     private static void SetAccountData(MyPlayer player, Account account, List<CharacterSmallDto> characters)
     {
         player.Characters = characters;

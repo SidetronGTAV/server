@@ -13,13 +13,14 @@ export class Character {
         Webview.Webview.on("Client:Character:ChangeCharacter", Character.ChangeCharacter);
     }
 
-    private static StartCharacter(characters: unknown[]): void {
-        Character.SetNativeProperties();
-        Webview.OpenUi("Webview:Character:OpenSelector", characters);
+    private static StartCharacter(characters: string): void {
+        Character.SetStartNativeProperties();
+        Webview.OpenUi("Webview:Character:OpenSelector", JSON.parse(characters));
     }
 
     private static SelectCharacter(id: number): void {
         Webview.CloseUi("Webview:Character:OpenSelector");
+        Character.SetStopNativeProperties();
         alt.emitServer("Server:Character:SelectCharacter", id);
     }
 
@@ -27,15 +28,24 @@ export class Character {
         alt.emitServer("Server:Character:ChangeCharacter", id);
     }
 
-    private static SetNativeProperties() {
+    private static SetStartNativeProperties() {
         Player.toggleController(false);
         Player.freeze(true);
         Camera.deleteAllCam();
         const forwardVector = native.getEntityForwardVector(alt.Player.local.scriptID);
         const position: position = [-1562.5055 + forwardVector.x + 1.5, -579.6528 + forwardVector.y * 1.5, 108.50769 + 0.6];
         Character._camera = Camera.create(position, [0, 0, 0], 90);
+        const camRot = native.getCamRot(Character._camera, 2);
+        native.setEntityRotation(alt.Player.local.scriptID, camRot.x, camRot.y, camRot.z, 2, true);
         Camera.pointCamToEntity(Character._camera, alt.Player.local);
         Camera.renderCam(true, false, 0);
+    }
+
+    private static SetStopNativeProperties() {
+        Player.toggleController(true);
+        Player.freeze(false);
+        Camera.deleteAllCam();
+        Camera.renderCam(false, false, 0);
     }
 
 }

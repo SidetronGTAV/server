@@ -9,6 +9,9 @@ import {IDetails} from './IDetails.js';
 import {IHairiness} from './IHairiness.js';
 
 export interface ICharCreator {
+    Firstname: string,
+    Lastname: string,
+    Birthday: Date,
     Sex: number;
     SkinFace: ISkinFace;
     Eye: IEye;

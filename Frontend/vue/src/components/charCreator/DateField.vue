@@ -30,5 +30,3 @@ const props = defineProps({
 const {title, subTitle, dateKey, object} = toRefs(props);
 
 </script>
-
-<style scoped></style>

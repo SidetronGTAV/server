@@ -11,6 +11,9 @@ import {CharacterSex} from "../Enums/CharacterSex.js";
 
 export class CharCreator {
     private static previousData: ICharCreator = {
+        Firstname: "",
+        Lastname: "",
+        Birthday: new Date(),
         Sex: 0,
         SkinFace: {
             ShapeFirstId: 0,
@@ -114,7 +117,6 @@ export class CharCreator {
 
         CharCreator.isCharCreatorOpen = true;
 
-        ;
 
         const forwardVector = native.getEntityForwardVector(alt.Player.local.scriptID);
         const position: position = [-1562.5055 + forwardVector.x + 0.9, -579.6528 + forwardVector.y * 0.9, 108.50769 + 0.6];
@@ -137,7 +139,7 @@ export class CharCreator {
         Entity.Freeze(alt.Player.local, false);
         Entity.Visible(alt.Player.local, true);
 
-        alt.emitServer(Events.CharCreator.setCharCreatorData, JSON.stringify(CharCreator.previousData));
+        alt.emitServer(Events.CharCreator.setCharCreatorData, JSON.stringify(CharCreator.previousData), CharCreator.previousData.Firstname, CharCreator.previousData.Lastname, JSON.stringify(new Date()));
     }
 
     private static StartPed(): void {
@@ -148,7 +150,9 @@ export class CharCreator {
 
         native.setPedHeadBlendData(CharCreator.Ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
 
-        native.setCamRot(CharCreator.Cam, player.rot.x, player.rot.y, player.rot.z, 2);
+        const rotationPlayer = native.getEntityRotation(player.scriptID, 2);
+
+        native.setCamRot(CharCreator.Cam, rotationPlayer.x, rotationPlayer.y, rotationPlayer.z, 2);
         native.pointCamAtEntity(CharCreator.Cam, CharCreator.Ped, 0, 0, 0, true);
         Camera.renderCam(true, false, 0);
     }

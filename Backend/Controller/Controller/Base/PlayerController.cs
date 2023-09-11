@@ -7,11 +7,17 @@ using Controller.Handler.Base;
 
 namespace Controller.Controller.Base;
 
-public class PlayerConnectController : IScript
+public class PlayerController : IScript
 {
     [ScriptEvent(ScriptEventType.PlayerConnect)]
     public void OnPlayerConnection(MyPlayer player, string reason)
     {
-        PlayerConnectHandler.HandlePlayerConnect(player);
+        PlayerHandler.HandlePlayerConnect(player);
+    }
+    
+    [ScriptEvent(ScriptEventType.PlayerDisconnect)]
+    public void OnPlayerDisconnect(MyPlayer player, string reason)
+    {
+        PlayerHandler.HandlePlayerDisconnect(player);
     }
 }

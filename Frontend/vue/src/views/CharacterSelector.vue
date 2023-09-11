@@ -5,11 +5,10 @@
         <div class="border-b border-b-neutral-50 w-full text-center pb-3">Character Selector</div>
         <div class="max-h-60 overflow-y-scroll">
           <div v-for="character in characters"
-               class="bg-base-100/30 hover:bg-base-100/20 p-2 rounded-lg w-72 grid grid-cols-2 items-center gap-x-5 my-3"
-               @click="changeCharacter(character.id)">
-            <div>{{ character.fullname }}</div>
+               class="bg-base-100/30 p-2 rounded-lg w-72 grid grid-cols-2 items-center gap-x-5 my-3">
+            <div @click="changeCharacter(character.Id)">{{ character.Fullname }}</div>
             <div class="flex justify-end items-center">
-              <button class="btn btn-sm w-10" @click="selectCharacter(character.id)">
+              <button class="btn btn-sm w-10" @click="selectCharacter(character.Id)">
                 <font-awesome-icon icon="fa-solid fa-play"/>
               </button>
             </div>

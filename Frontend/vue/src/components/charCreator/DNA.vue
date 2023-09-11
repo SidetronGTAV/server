@@ -5,15 +5,22 @@
         <font-awesome-icon icon="fa-solid fa-dna"/>
       </template>
     </Title>
-    <TextField title="DEIN NAME" :object="{ Name: '' }" dateKey="Name" subTitle="Mit diesem Namen wirst du einreisen.">
+    <TextField title="DEIN VORNAME" :object="data" dateKey="Firstname"
+               subTitle="Mit diesem Namen wirst du einreisen.">
+      <template #icon>
+        <font-awesome-icon icon="fa-solid fa-user"/>
+      </template>
+    </TextField>
+    <TextField title="DEIN NACHNAME" :object="data" dateKey="Lastname"
+               subTitle="Mit diesem Namen wirst du einreisen.">
       <template #icon>
         <font-awesome-icon icon="fa-solid fa-user"/>
       </template>
     </TextField>
     <DateField
         title="DEIN GEBURTSTAG"
-        :object="{ BirthDay: new Date() }"
-        dateKey="BirthDay"
+        :object="data"
+        dateKey="Birthday"
         subTitle="An diesem Tag ist dein Charakter geboren. Bitte präge ihn dir gut ein!"
         textType="date"
     >
@@ -91,9 +98,9 @@ function setSex(bool) {
   womanClass.value = bool ? 'border-2 border-[#C52223FF]' : 'border-none';
 }
 
-watch(() => data.value.Sex, (newValue) => {
+watch(() => data.value.Sex, () => {
   if ('alt' in window) {
-    alt.emit('Client:CharCreator:setSex', newValue);
+    alt.emit('Client:CharCreator:setSex', data.value.Sex);
   }
-});
+}, {immediate: true});
 </script>

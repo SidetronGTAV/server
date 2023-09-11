@@ -1,8 +1,10 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using AltV.Net;
 using AltV.Net.Async;
+using Common.Dto.UserStuff;
 using Common.Models;
 using Common.Models.Discord;
 using Controller.Handler.Base;
@@ -27,13 +29,19 @@ public class LoginController : IScript
             return;
         }
 
-        var characters = await LoginHandler.HandleUserLoginAsync(player, discordUser);
+        List<CharacterSmallDto> characters = await LoginHandler.HandleUserLoginAsync(player, discordUser);
+
+        if (characters == null)
+        {
+            return;
+        }
 
         if (characters.Count == 0)
         {
             player.Emit("Client:Character:Create");
             return;
         }
-        player.Emit("Client:Character:Start", characters);
+
+        await CharacterHandler.StartCharacterSelector(player, characters);
     }
 }
