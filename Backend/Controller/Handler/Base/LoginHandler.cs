@@ -38,9 +38,22 @@ public class LoginHandler
             return null;
         }
 
+        
+        
         var config = new MapperConfiguration(cfg => cfg.CreateMap<Character, CharacterSmallDto>());
         var mapper = new Mapper(config);
         var characters = mapper.Map<List<Character>, List<CharacterSmallDto>>(account.Characters);
+        SetAccountData(player, account, characters);
         return characters;
+    }
+    
+    private static void SetAccountData(MyPlayer player, Account account, List<CharacterSmallDto> characters)
+    {
+        player.Characters = characters;
+        player.MaxCharacters = account.MaxCharacters;
+        player.AccountId = account.Id;
+        player.AccountDiscordId = account.DiscordId;
+        player.isLoggin = true;
+        player.Emit("Client:Login:LoginSuccess");
     }
 }

@@ -34,7 +34,6 @@ public class LoginController : IScript
             player.Emit("Client:Character:Create");
             return;
         }
-
         player.Emit("Client:Character:Start", characters);
     }
 }

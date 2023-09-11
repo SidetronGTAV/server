@@ -104,8 +104,8 @@ export class CharCreator {
     constructor() {
         Webview.Webview.on(Events.CharCreator.setCharCreatorProperty, CharCreator.SetProperty);
         Webview.Webview.on(Events.CharCreator.closeCharCreator, CharCreator.CloseCharCreator);
-        Webview.Webview.on(Events.CharCreator.setSex, (value) => CharCreator.ChangeSex(value));
-        alt.onServer(Events.CharCreator.openCharCreator, () => CharCreator.OpenCharCreator());
+        Webview.Webview.on(Events.CharCreator.setSex, CharCreator.ChangeSex);
+        alt.onServer(Events.CharCreator.openCharCreator, CharCreator.OpenCharCreator);
     }
 
     public static OpenCharCreator(): void {
@@ -153,7 +153,7 @@ export class CharCreator {
         Camera.renderCam(true, false, 0);
     }
 
-    private static ChangeSex(index: number): void {
+    private static ChangeSex(index: CharacterSex): void {
         if (index === CharacterSex.Male) {
             const tick = alt.everyTick(() => {
                 if (!native.hasModelLoaded(alt.hash('mp_m_freemode_01'))) {
@@ -161,6 +161,8 @@ export class CharCreator {
                 } else {
                     native.setPlayerModel(alt.Player.local.scriptID, alt.hash('mp_m_freemode_01'));
                     alt.clearEveryTick(tick);
+                    Ped.DestroyPed(CharCreator.Ped);
+                    CharCreator.StartPed();
                 }
             });
         } else {
@@ -170,11 +172,11 @@ export class CharCreator {
                 } else {
                     native.setPlayerModel(alt.Player.local.scriptID, alt.hash('mp_f_freemode_01'));
                     alt.clearEveryTick(tick);
+                    Ped.DestroyPed(CharCreator.Ped);
+                    CharCreator.StartPed();
                 }
             });
         }
-        Ped.DestroyPed(CharCreator.Ped);
-        CharCreator.StartPed();
     }
 
     private static SetProperty(count: number, newValue: ICharCreator): void {

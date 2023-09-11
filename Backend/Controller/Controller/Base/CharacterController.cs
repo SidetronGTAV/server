@@ -32,6 +32,6 @@ public class CharacterController : IScript
             return;
         }
 
-        var characterSkinDto = JsonSerializer.Deserialize<CharacterSkin>(characterSkin);
+        var deserializedCharacterSkin = JsonSerializer.Deserialize<CharacterSkin>(characterSkin);
     }
 }

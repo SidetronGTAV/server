@@ -1,4 +1,4 @@
 export enum CharacterSex {
-    Female,
-    Male
+    Male,
+    Female
 }
