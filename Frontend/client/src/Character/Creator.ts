@@ -119,8 +119,11 @@ export class CharCreator {
 
 
         const forwardVector = native.getEntityForwardVector(alt.Player.local.scriptID);
-        const position: position = [-1562.5055 + forwardVector.x + 0.9, -579.6528 + forwardVector.y * 0.9, 108.50769 + 0.6];
+        const position: position = [-1562.5055 + forwardVector.x, -579.6528 + forwardVector.y, 108.50769 + 0.6];
         CharCreator.Cam = Camera.create(position, [0, 0, 0], 90);
+        const playerRot = native.getEntityRotation(CharCreator.Cam, 1);
+        native.setCamRot(CharCreator.Cam, playerRot.x, playerRot.y, playerRot.z, 1);
+        Camera.pointCamToEntity(CharCreator.Cam, alt.Player.local);
         CharCreator.StartPed();
         Entity.Freeze(CharCreator.Ped, true);
         Entity.Freeze(alt.Player.local, true);

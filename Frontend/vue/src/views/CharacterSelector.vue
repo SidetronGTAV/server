@@ -14,6 +14,12 @@
             </div>
           </div>
         </div>
+        <div>
+          <button v-if="canCreateCharacter" class="btn btn-sm mt-2" @click="createCharacter">
+            <font-awesome-icon icon="fa-solid fa-plus"/>
+            Charakter erstellen
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -23,6 +29,7 @@ import {onMounted, ref} from "vue";
 
 const characters = ref<Character[]>([]);
 const showCharacter = ref(false)
+const canCreateCharacter = ref(false)
 
 function changeCharacter(id: number) {
   if ('alt' in window)
@@ -34,11 +41,17 @@ function selectCharacter(id: number) {
     alt.emit("Client:Character:SelectCharacter", id)
 }
 
+function createCharacter() {
+  if ('alt' in window)
+    alt.emit("Client:Character:OpenCharacterCreator")
+}
+
 onMounted(() => {
   if ('alt' in window) {
-    alt.on("Webview:Character:OpenSelector", (show: boolean, clientCharacters: Character[]) => {
+    alt.on("Webview:Character:OpenSelector", (show: boolean, clientCharacters: Character[], showCharCreatorButton: boolean) => {
       characters.value = clientCharacters;
       showCharacter.value = show;
+      canCreateCharacter.value = showCharCreatorButton;
     })
   }
 })

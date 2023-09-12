@@ -11,11 +11,12 @@ export class Character {
         alt.onServer("Client:Character:Start", Character.StartCharacter);
         Webview.Webview.on("Client:Character:SelectCharacter", Character.SelectCharacter);
         Webview.Webview.on("Client:Character:ChangeCharacter", Character.ChangeCharacter);
+        Webview.Webview.on("Client:Character:OpenCharacterCreator", Character.OpenCharacterCreator);
     }
 
-    private static StartCharacter(characters: string): void {
+    private static StartCharacter(characters: string, showCharacterCreator: boolean): void {
         Character.SetStartNativeProperties();
-        Webview.OpenUi("Webview:Character:OpenSelector", JSON.parse(characters));
+        Webview.OpenUi("Webview:Character:OpenSelector", JSON.parse(characters), showCharacterCreator);
     }
 
     private static SelectCharacter(id: number): void {
@@ -28,17 +29,24 @@ export class Character {
         alt.emitServer("Server:Character:ChangeCharacter", id);
     }
 
+    private static OpenCharacterCreator(): void {
+        Character.SetStopNativeProperties();
+        Webview.CloseUi("Webview:Character:OpenSelector");
+        alt.emitServer("Server:Character:OpenCharacterCreator");
+    }
+
     private static SetStartNativeProperties() {
         Player.toggleController(false);
         Player.freeze(true);
         Camera.deleteAllCam();
         const forwardVector = native.getEntityForwardVector(alt.Player.local.scriptID);
-        const position: position = [-1562.5055 + forwardVector.x + 1.5, -579.6528 + forwardVector.y * 1.5, 108.50769 + 0.6];
+        const position: position = [-1562.5055 + forwardVector.x, -579.6528 + forwardVector.y, 108.50769 + 0.6];
         Character._camera = Camera.create(position, [0, 0, 0], 90);
-        const camRot = native.getCamRot(Character._camera, 2);
-        native.setEntityRotation(alt.Player.local.scriptID, camRot.x, camRot.y, camRot.z, 2, true);
+        const playerRot = native.getEntityRotation(Character._camera, 1);
+        native.setCamRot(Character._camera, playerRot.x, playerRot.y, playerRot.z, 1);
         Camera.pointCamToEntity(Character._camera, alt.Player.local);
         Camera.renderCam(true, false, 0);
+
     }
 
     private static SetStopNativeProperties() {
