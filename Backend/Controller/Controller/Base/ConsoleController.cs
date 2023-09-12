@@ -36,4 +36,44 @@ public class ConsoleController : IScript
     {
         Console.WriteLine($"Position {player.Name}: {player.Position}");
     }
+    
+    [ClientEvent("Server:Console:PlayerID")]
+    public static void OnGetPlayerId(MyPlayer player)
+    {
+       player.Emit("Client:Console:PlayerID", player.Id);
+    }
+
+    [ClientEvent("Server:Console:TpToMe")]
+    public static void OnPlayerTpToMe(MyPlayer player, uint id)
+    {
+        var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
+        if (targetPlayer.Exists)
+        {
+            targetPlayer.Position = player.Position;
+        }
+    }
+    
+    [ClientEvent("Server:Console:TpToPlayer")]
+    public static void OnTpToPlayer(MyPlayer player, uint id)
+    {
+        var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
+        if (targetPlayer.Exists)
+        {
+            player.Position = targetPlayer.Position;
+        }
+    }
+    
+    [ClientEvent("Server:Console:GiveWeapon")]
+    public static void OnGiveWeapon(MyPlayer player, string weaponName)
+    {
+        try
+        {
+            player.GiveWeapon(Alt.Hash(weaponName), 9999, true);
+        }
+        catch (Exception)
+        {
+            //Ignore weil Samir stinkt
+        }
+        
+    }
 }

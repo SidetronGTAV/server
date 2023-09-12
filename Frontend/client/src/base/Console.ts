@@ -9,6 +9,9 @@ export class Console {
                 Console[command](...args);
             }
         });
+        alt.onServer("Client:Console:PlayerID", (id: number) => {
+            alt.log(`Your ID: ${id}`);
+        });
     }
 
     protected static car(vehicle: string) {
@@ -21,5 +24,21 @@ export class Console {
 
     protected static pos(): void {
         alt.emitServer('Server:Console:PlayerPosition');
+    }
+
+    protected static id(): void {
+        alt.emitServer('Server:Console:PlayerID');
+    }
+
+    protected static tptoplayer(id: string): void {
+        alt.emitServer('Server:Console:TpToPlayer', parseInt(id));
+    }
+
+    protected static tptome(id: string): void {
+        alt.emitServer('Server:Console:TpToMe', parseInt(id));
+    }
+
+    protected static weapon(weapon: string): void {
+        alt.emitServer('Server:Console:GiveWeapon', weapon);
     }
 }
