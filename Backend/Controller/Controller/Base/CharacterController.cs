@@ -26,7 +26,7 @@ public class CharacterController : IScript
     public async Task OnCreateCharacterAsync(MyPlayer player, string characterSkin, string firstname, string lastname,
         string birthdayString)
     {
-        if (player.isInCharacterId != 0 || player.MaxCharacters <= player.Characters.Count)
+        if (player.isInCharacterId != 0 || (player.MaxCharacters <= player.Characters.Count && player.MaxCharacters != -1))
         {
             //TODO: Ban User
             return;
@@ -41,5 +41,16 @@ public class CharacterController : IScript
         }
 
         await CharacterHandler.CreateCharacterAsync(player, deserializedCharacterSkin, firstname, lastname, birthday);
+    }
+    
+    [AsyncClientEvent("Server:Character:OpenCharacterCreator")]
+    public static async Task OnOpenCharacterCreatorAsync(MyPlayer player)
+    {
+        if (player.isInCharacterId != 0 || (player.MaxCharacters <= player.Characters.Count && player.MaxCharacters != -1))
+        {
+            //TODO: Ban User
+            return;
+        }
+        player.Emit("Client:Character:Create");
     }
 }

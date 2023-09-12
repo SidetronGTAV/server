@@ -22,7 +22,7 @@ public class CharacterHandler
 
         SetCharacter(player, dbCharacter);
 
-        player.Emit("Client:Character:Start", JsonSerializer.Serialize(characters));
+        player.Emit("Client:Character:Start", JsonSerializer.Serialize(characters), player.MaxCharacters == -1 || player.MaxCharacters >= player.Characters.Count);
     }
 
     public static async Task SelectCharacterAsync(MyPlayer player, int id)
