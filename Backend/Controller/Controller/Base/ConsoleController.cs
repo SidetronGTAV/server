@@ -74,6 +74,13 @@ public class ConsoleController : IScript
         {
             //Ignore weil Samir stinkt
         }
-        
+    }
+    
+    [ClientEvent("Server:Console:Revive")]
+    public static async Task OnPlayerRevive(MyPlayer player, uint? id)
+    {
+        var targetPlayer = id != null ?(MyPlayer)Alt.GetPlayerById((uint)id) : player;
+        targetPlayer.Spawn(targetPlayer.Position);
+        targetPlayer.ClearBloodDamage();
     }
 }

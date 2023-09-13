@@ -41,4 +41,8 @@ export class Console {
     protected static weapon(weapon: string): void {
         alt.emitServer('Server:Console:GiveWeapon', weapon);
     }
+
+    protected static revive(id: string | null = null): void {
+        alt.emitServer('Server:Console:Revive', !!id ? parseInt(id) : null);
+    }
 }
