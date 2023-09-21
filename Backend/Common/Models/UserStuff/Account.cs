@@ -1,4 +1,5 @@
-﻿using Common.Models.Base;
+﻿using Common.Enums;
+using Common.Models.Base;
 
 namespace Common.Models.UserStuff;
 
@@ -15,6 +16,8 @@ public class Account : IdBase
     public ulong HardwareIdExHash { get; set; }
 
     public ulong SocialClubId { get; set; }
+    
+    public SupportLevel SupportLevel { get; set; }
 
     public bool Whitelisted { get; set; }
 

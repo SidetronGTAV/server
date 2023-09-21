@@ -16,7 +16,7 @@ public class LoginController : IScript
     [AsyncClientEvent("Server:Login:LoginUser")]
     public async Task OnLoginUser(MyPlayer player, string token)
     {
-        if (player.isLoggin)
+        if (player.IsLoggin)
         {
             //TODO: Ban User
             return;

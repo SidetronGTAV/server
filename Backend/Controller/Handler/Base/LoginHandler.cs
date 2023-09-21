@@ -53,7 +53,8 @@ public class LoginHandler
         player.MaxCharacters = account.MaxCharacters;
         player.AccountId = account.Id;
         player.AccountDiscordId = account.DiscordId;
-        player.isLoggin = true;
+        player.IsLoggin = true;
+        player.SupportLevel = account.SupportLevel;
         player.Emit("Client:Login:LoginSuccess");
     }
 }

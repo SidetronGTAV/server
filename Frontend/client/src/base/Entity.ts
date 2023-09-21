@@ -9,4 +9,8 @@ export class Entity {
     public static Visible(entity: alt.Entity | number, visible: boolean): void {
         native.setEntityVisible(entity, visible, false);
     }
+
+    public static ToogleControls(toggle: boolean): void {
+        alt.toggleGameControls(toggle);
+    }
 }

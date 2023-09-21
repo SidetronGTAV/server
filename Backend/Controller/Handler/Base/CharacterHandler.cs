@@ -1,4 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.Net.Mail;
+using System.Text.Json;
+using AltV.Net;
+using AltV.Net.Async;
+using AltV.Net.Enums;
 using Common.Dto.UserStuff;
 using Common.Models;
 using Common.Models.Base;
@@ -93,7 +97,7 @@ public class CharacterHandler
 
     private static void SetCharacterDataInGame(MyPlayer player, Character character)
     {
-        player.isInCharacterId = character.Id;
+        player.IsInCharacterId = character.Id;
         player.Spawn(character.Position);
         player.Frozen = false;
         DimensionHandler.RemovePrivateDimension(player.Dimension);
@@ -182,5 +186,34 @@ public class CharacterHandler
             character.CharacterSkin.SkinFace.SkinMix,
             character.CharacterSkin.SkinFace.ThirdMix
         );
+    }
+
+    public static async Task RevivePlayerAsync(MyPlayer player)
+    {
+        await CharacterDbHandler.SetCharacterAliveAsync(player);
+        DimensionHandler.RemovePrivateDimension(player.Dimension);
+        player.Dimension = DimensionHandler.DefaultDimension;
+        player.Spawn(player.Position);
+        player.ClearBloodDamage();
+        player.Emit("Client:DeadHandler:Revived");
+    }
+    
+    public static void DoCharacterDiedAsync(MyPlayer player)
+    {
+        CharacterDbHandler.SetCharacterAlive(player);
+        player.Dimension = DimensionHandler.GetPrivateDimension();
+        
+        AltAsync.Do(() =>
+        {
+            
+            Thread.Sleep(1000);
+            player.Emit("Client:DeadHandler:Died");
+            Thread.Sleep(20000);
+            player.Spawn(new AltV.Net.Data.Position(310.07f,-580.10f,43.28f));
+            Thread.Sleep(20000);
+           
+            DimensionHandler.RemovePrivateDimension(player.Dimension);
+            player.Dimension = DimensionHandler.DefaultDimension;
+        });
     }
 }
