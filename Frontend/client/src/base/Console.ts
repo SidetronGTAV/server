@@ -1,4 +1,5 @@
 import * as alt from 'alt-client'
+import * as native from 'natives'
 
 export class Console {
     static [index: string]: (...args: string[]) => void;
@@ -44,5 +45,18 @@ export class Console {
 
     protected static revive(id: string | null = null): void {
         alt.emitServer('Server:Console:Revive', !!id ? parseInt(id) : null);
+    }
+
+    protected static animfx(name: string) {
+        native.animpostfxPlay(name, 10000, false);
+    }
+
+    protected static animfxstop() {
+        native.animpostfxStopAll();
+    }
+
+    protected static test(text: string) {
+        const vehicle = native.createVehicle(alt.hash("ambulance"), alt.Player.local.pos.x, alt.Player.local.pos.y, alt.Player.local.pos.z, 0, true, true, false);
+        native.setSirenWithNoDriver(vehicle, true);
     }
 }

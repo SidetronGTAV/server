@@ -3,6 +3,7 @@ using System.Timers;
 using AltV.Net;
 using AltV.Net.Elements.Entities;
 using Common.Models;
+using Controller.Handler.Base;
 using DataAccess.DbHandler;
 
 public class ShitSaver
@@ -34,8 +35,12 @@ public class ShitSaver
             if (!_allFuckingPlayers.TryDequeue(out var player)) return;
             if (!player.Exists) continue;
             var myPlayer = (MyPlayer)player;
-            if (myPlayer.isInCharacterId == 0) continue;
-            CharacterDbHandler.SaveCharacterPosition(myPlayer.isInCharacterId, player.Position);
+            if (myPlayer.IsInCharacterId == 0) continue;
+            if (myPlayer.AtCharacterDied < DateTime.UtcNow)
+            {
+                CharacterHandler.DoCharacterDiedAsync(myPlayer);
+            }
+            CharacterDbHandler.SaveCharacterPosition(myPlayer.IsInCharacterId, player.Position);
         }
     }
 }

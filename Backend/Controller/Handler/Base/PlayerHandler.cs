@@ -23,6 +23,6 @@ public static class PlayerHandler
     
     public static void HandlePlayerDisconnect(MyPlayer player)
     {
-        CharacterDbHandler.SaveCharacterPosition(player.isInCharacterId, player.Position);
+        CharacterDbHandler.SaveCharacterPosition(player.IsInCharacterId, player.Position);
     }
 }

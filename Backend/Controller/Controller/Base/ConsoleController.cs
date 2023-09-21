@@ -1,7 +1,10 @@
 ﻿using AltV.Net;
 using AltV.Net.Async;
 using AltV.Net.Elements.Entities;
+using Common.Enums;
 using Common.Models;
+using Controller.Handler.Base;
+using DataAccess.DbHandler;
 
 namespace Controller.Controller.Base;
 
@@ -10,13 +13,22 @@ public class ConsoleController : IScript
     [AsyncClientEvent("Server:Console:SpawnVehicle")]
     public static async Task OnSpawnVehicle(MyPlayer player, string vehicleName)
     {
+        if (player.SupportLevel < SupportLevel.Admin)
+        {
+            return;
+        }
         await AltAsync.CreateVehicle(vehicleName, new(player.Position.X + 1, player.Position.Y + 1, player.Position.Z),
             player.Rotation);
     }
 
     [ClientEvent("Server:Console:DeleteVehicle")]
     public static void OnDeleteVehicle(MyPlayer player, int radius)
-    {
+    { 
+        if (player.SupportLevel < SupportLevel.Admin)
+        {
+            return;
+        }
+        
         if (player.Vehicle != null)
         {
             player.Vehicle.Destroy();
@@ -46,6 +58,10 @@ public class ConsoleController : IScript
     [ClientEvent("Server:Console:TpToMe")]
     public static void OnPlayerTpToMe(MyPlayer player, uint id)
     {
+        if (player.SupportLevel < SupportLevel.Supporter)
+        {
+            return;
+        }
         var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
         if (targetPlayer.Exists)
         {
@@ -56,6 +72,10 @@ public class ConsoleController : IScript
     [ClientEvent("Server:Console:TpToPlayer")]
     public static void OnTpToPlayer(MyPlayer player, uint id)
     {
+        if (player.SupportLevel < SupportLevel.Supporter)
+        {
+            return;
+        }
         var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
         if (targetPlayer.Exists)
         {
@@ -66,21 +86,28 @@ public class ConsoleController : IScript
     [ClientEvent("Server:Console:GiveWeapon")]
     public static void OnGiveWeapon(MyPlayer player, string weaponName)
     {
+        if (player.SupportLevel < SupportLevel.Admin)
+        {
+            return;
+        }
         try
         {
             player.GiveWeapon(Alt.Hash(weaponName), 9999, true);
         }
         catch (Exception)
         {
-            //Ignore weil Samir stinkt
+            //Ignore
         }
     }
     
     [ClientEvent("Server:Console:Revive")]
     public static async Task OnPlayerRevive(MyPlayer player, uint? id)
     {
+        if (player.SupportLevel < SupportLevel.Supporter)
+        {
+            return;
+        }
         var targetPlayer = id != null ?(MyPlayer)Alt.GetPlayerById((uint)id) : player;
-        targetPlayer.Spawn(targetPlayer.Position);
-        targetPlayer.ClearBloodDamage();
+        await CharacterHandler.RevivePlayerAsync(targetPlayer);
     }
 }

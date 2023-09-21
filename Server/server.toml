@@ -10,5 +10,5 @@ website = 'example.com'
 language = 'en'
 description = 'alt:V Sample Server'
 modules = ['csharp-module']
-resources = ['server']
+resources = ['server', 'gabz_pillbox', 'gabz_mrpd', 'assets']
 debug = true
