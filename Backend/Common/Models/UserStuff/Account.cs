@@ -19,8 +19,6 @@ public class Account : IdBase
     
     public SupportLevel SupportLevel { get; set; }
 
-    public SupportLevel SupportLevel { get; set; }
-
     public bool Whitelisted { get; set; }
 
     public DateTime? WhitelistedAt { get; set; }

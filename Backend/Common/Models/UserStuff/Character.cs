@@ -20,10 +20,6 @@ public class Character : IdBase
     public bool IsCharacterDead { get; set; }
     
     public DateTime? AtCharacterDied { get; set; }
-
-    public bool IsCharacterDead { get; set; }
-
-    public DateTime? AtCharacterDied { get; set; }
-
+    
     public CharacterSkin.CharacterSkin CharacterSkin { get; set; }
 }
