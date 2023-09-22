@@ -1,0 +1,7 @@
+files = [
+  "stream/assets/*"
+]
+
+[meta]
+"stream/gabztimecyclemods.xml" = "TIMECYCLEMOD_FILE"
+
