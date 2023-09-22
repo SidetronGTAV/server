@@ -30,20 +30,17 @@ export class DeadHandler {
         native.animpostfxStopAll();
     }
 
-    private static died() {
+    private static died(vehicleId: number) {
         Webview.Webview.emit("Webview:DeadScreen:State", true);
         alt.setTimeout(() => {
-            const sirene = new alt.Audio("@assets/stream/audio/SIREN_WAIL_01.wav", 0.5, false);
-            const output = new alt.AudioOutputWorld(new alt.Vector3(310.07, -580.10, 43.28));
-            sirene.addOutput(output);
-            sirene.looped = true;
-            sirene.play();
+            const vehicle = alt.Vehicle.getByRemoteID(vehicleId);
+            native.setPedIntoVehicle(alt.Player.local, vehicle, -1);
+            native.setVehicleEngineOn(vehicle, true, true, false);
+            native.setVehicleSiren(vehicle, true);
+            native.taskVehicleDriveToCoord(alt.Player.local, vehicle, 292.06, -587.72, 43.18, 200, 1, alt.hash("ambulance"), 5, 1, 2);
             alt.setTimeout(() => {
-                sirene.destroy();
-                output.destroy();
                 DeadHandler.revived();
-                Webview.Webview.emit("Webview:DeadScreen:State", false);
-            }, 20000);
-        }, 20000);
+            }, 30000);
+        }, 21000);
     }
 }

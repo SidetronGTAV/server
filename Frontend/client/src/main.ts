@@ -16,7 +16,6 @@ alt.on('connectionComplete', async () => {
     new Character();
     new CharCreator();
     new DeadHandler();
-
     await Login.getOAuthToken();
 })
 

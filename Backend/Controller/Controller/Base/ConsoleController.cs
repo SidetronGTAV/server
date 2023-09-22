@@ -17,18 +17,19 @@ public class ConsoleController : IScript
         {
             return;
         }
+
         await AltAsync.CreateVehicle(vehicleName, new(player.Position.X + 1, player.Position.Y + 1, player.Position.Z),
             player.Rotation);
     }
 
     [ClientEvent("Server:Console:DeleteVehicle")]
     public static void OnDeleteVehicle(MyPlayer player, int radius)
-    { 
+    {
         if (player.SupportLevel < SupportLevel.Admin)
         {
             return;
         }
-        
+
         if (player.Vehicle != null)
         {
             player.Vehicle.Destroy();
@@ -48,11 +49,11 @@ public class ConsoleController : IScript
     {
         Console.WriteLine($"Position {player.Name}: {player.Position}");
     }
-    
+
     [ClientEvent("Server:Console:PlayerID")]
     public static void OnGetPlayerId(MyPlayer player)
     {
-       player.Emit("Client:Console:PlayerID", player.Id);
+        player.Emit("Client:Console:PlayerID", player.Id);
     }
 
     [ClientEvent("Server:Console:TpToMe")]
@@ -62,13 +63,14 @@ public class ConsoleController : IScript
         {
             return;
         }
+
         var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
         if (targetPlayer.Exists)
         {
             targetPlayer.Position = player.Position;
         }
     }
-    
+
     [ClientEvent("Server:Console:TpToPlayer")]
     public static void OnTpToPlayer(MyPlayer player, uint id)
     {
@@ -76,13 +78,14 @@ public class ConsoleController : IScript
         {
             return;
         }
+
         var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
         if (targetPlayer.Exists)
         {
             player.Position = targetPlayer.Position;
         }
     }
-    
+
     [ClientEvent("Server:Console:GiveWeapon")]
     public static void OnGiveWeapon(MyPlayer player, string weaponName)
     {
@@ -90,6 +93,7 @@ public class ConsoleController : IScript
         {
             return;
         }
+
         try
         {
             player.GiveWeapon(Alt.Hash(weaponName), 9999, true);
@@ -99,7 +103,7 @@ public class ConsoleController : IScript
             //Ignore
         }
     }
-    
+
     [ClientEvent("Server:Console:Revive")]
     public static async Task OnPlayerRevive(MyPlayer player, uint? id)
     {
@@ -107,7 +111,14 @@ public class ConsoleController : IScript
         {
             return;
         }
-        var targetPlayer = id != null ?(MyPlayer)Alt.GetPlayerById((uint)id) : player;
+
+        var targetPlayer = id != null ? (MyPlayer)Alt.GetPlayerById((uint)id) : player;
         await CharacterHandler.RevivePlayerAsync(targetPlayer);
+    }
+
+    [ClientEvent("Server:Console:Rotation")]
+    public static void OnPlayerRotation(MyPlayer player)
+    {
+        Console.WriteLine($"Rotation {player.Name}: {player.Rotation}");
     }
 }

@@ -24,7 +24,6 @@ if ('alt' in window) {
         transition.value = false;
       }, 500);
     }
-
   })
 }
 </script>

@@ -19,15 +19,15 @@ public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
     public int IsInCharacterId { get; set; } = 0;
 
     public bool IsCharacterDead { get; set; }
-    
+
     public DateTime? AtCharacterDied { get; set; }
-    
+
     public int MaxCharacters { get; set; }
-    
+
     public SupportLevel SupportLevel { get; set; }
 
     public List<CharacterSmallDto> Characters { get; set; }
-    
+
     public MyPlayer(ICore core, IntPtr nativePointer, uint id) : base(core, nativePointer, id)
     {
     }

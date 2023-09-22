@@ -9,6 +9,7 @@ using Common.Models.Base;
 using Common.Models.UserStuff;
 using Common.Models.UserStuff.CharacterSkin;
 using Controller.Utility;
+using DataAccess;
 using DataAccess.DbHandler;
 
 namespace Controller.Handler.Base;
@@ -26,7 +27,8 @@ public class CharacterHandler
 
         SetCharacter(player, dbCharacter);
 
-        player.Emit("Client:Character:Start", JsonSerializer.Serialize(characters), player.MaxCharacters == -1 || player.MaxCharacters >= player.Characters.Count);
+        player.Emit("Client:Character:Start", JsonSerializer.Serialize(characters),
+            player.MaxCharacters == -1 || player.MaxCharacters >= player.Characters.Count);
     }
 
     public static async Task SelectCharacterAsync(MyPlayer player, int id)
@@ -38,7 +40,7 @@ public class CharacterHandler
             //TODO: Ban User
             return;
         }
-        
+
         if (dbCharacter == null)
         {
             throw new NullReferenceException("Character is null");
@@ -47,7 +49,7 @@ public class CharacterHandler
         SetCharacter(player, dbCharacter);
         SetCharacterDataInGame(player, dbCharacter);
     }
-    
+
     public static async Task ChangeCharacterAsync(MyPlayer player, int id)
     {
         var dbCharacter = await CharacterDbHandler.GetCharacterByIdAsync(id);
@@ -62,9 +64,10 @@ public class CharacterHandler
         {
             throw new NullReferenceException("Character is null");
         }
+
         SetCharacter(player, dbCharacter);
     }
-    
+
     public static async Task CreateCharacterAsync(MyPlayer player, CharacterSkin characterSkin, string firstname,
         string lastname, DateTime birthday)
     {
@@ -77,7 +80,7 @@ public class CharacterHandler
             Birthday = birthday,
             CharacterSkinId = savedCharacterSkin.Id,
             AccountId = player.AccountId,
-            Position = new Position{X = 0, Y = 0, Z = 72}
+            Position = new Position { X = 0, Y = 0, Z = 72 }
         };
 
         var savedCharacter = await CharacterDbHandler.SetCharacterAsync(character);
@@ -98,10 +101,16 @@ public class CharacterHandler
     private static void SetCharacterDataInGame(MyPlayer player, Character character)
     {
         player.IsInCharacterId = character.Id;
+        player.IsCharacterDead = character.IsCharacterDead;
+        player.AtCharacterDied = character.AtCharacterDied;
         player.Spawn(character.Position);
         player.Frozen = false;
         DimensionHandler.RemovePrivateDimension(player.Dimension);
         player.Dimension = DimensionHandler.DefaultDimension;
+        if (player.IsCharacterDead)
+        {
+            player.Health = 0;
+        }
     }
 
     private static void SetCharacter(MyPlayer player, Character character)
@@ -197,23 +206,24 @@ public class CharacterHandler
         player.ClearBloodDamage();
         player.Emit("Client:DeadHandler:Revived");
     }
-    
-    public static void DoCharacterDiedAsync(MyPlayer player)
+
+    public static async Task DoCharacterDiedAsync(MyPlayer player)
     {
-        CharacterDbHandler.SetCharacterAlive(player);
-        player.Dimension = DimensionHandler.GetPrivateDimension();
-        
-        AltAsync.Do(() =>
-        {
-            
-            Thread.Sleep(1000);
-            player.Emit("Client:DeadHandler:Died");
-            Thread.Sleep(20000);
-            player.Spawn(new AltV.Net.Data.Position(310.07f,-580.10f,43.28f));
-            Thread.Sleep(20000);
-           
-            DimensionHandler.RemovePrivateDimension(player.Dimension);
-            player.Dimension = DimensionHandler.DefaultDimension;
-        });
+        var privateDimension = DimensionHandler.GetPrivateDimension();
+        await CharacterDbHandler.SetCharacterAliveAsync(player);
+        player.Dimension = privateDimension;
+        var vehicle = await AltAsync.CreateVehicle(VehicleModel.Ambulance, new(56.53f, -295.140f, 47.39f),
+            new AltV.Net.Data.Rotation(0, 0, -1.929f));
+        vehicle.Dimension = privateDimension;
+        await Task.Delay(1000);
+        player.Emit("Client:DeadHandler:Died", vehicle.Id);
+        await Task.Delay(20000);
+        player.Spawn(new AltV.Net.Data.Position(56.53f, -295.140f, 47.39f));
+        await Task.Delay(30000);
+        vehicle.Destroy();
+        player.Health = 101;
+        player.Position = new AltV.Net.Data.Position(310.07f, -580.10f, 43.28f);
+        DimensionHandler.RemovePrivateDimension(player.Dimension);
+        player.Dimension = DimensionHandler.DefaultDimension;
     }
 }

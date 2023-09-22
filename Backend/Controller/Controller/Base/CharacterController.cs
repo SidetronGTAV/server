@@ -26,7 +26,8 @@ public class CharacterController : IScript
     public async Task OnCreateCharacterAsync(MyPlayer player, string characterSkin, string firstname, string lastname,
         string birthdayString)
     {
-        if (player.IsInCharacterId != 0 || (player.MaxCharacters <= player.Characters.Count && player.MaxCharacters != -1))
+        if (player.IsInCharacterId != 0 ||
+            (player.MaxCharacters <= player.Characters.Count && player.MaxCharacters != -1))
         {
             //TODO: Ban User
             return;

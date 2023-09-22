@@ -59,4 +59,8 @@ export class Console {
         const vehicle = native.createVehicle(alt.hash("ambulance"), alt.Player.local.pos.x, alt.Player.local.pos.y, alt.Player.local.pos.z, 0, true, true, false);
         native.setSirenWithNoDriver(vehicle, true);
     }
+
+    protected static rot() {
+        alt.emitServer("Server:Console:Rotation");
+    }
 }

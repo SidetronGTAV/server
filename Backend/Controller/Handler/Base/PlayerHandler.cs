@@ -20,7 +20,7 @@ public static class PlayerHandler
         player.Frozen = true;
         player.SetDateTime(DateTime.Now);
     }
-    
+
     public static void HandlePlayerDisconnect(MyPlayer player)
     {
         CharacterDbHandler.SaveCharacterPosition(player.IsInCharacterId, player.Position);

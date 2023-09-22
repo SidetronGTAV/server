@@ -38,20 +38,20 @@ public class CharacterDbHandler
         using var db = new DbContext();
         var character = db.Characters.FirstOrDefault(c => c.Id == id);
         if (character == null) return;
-        character.Position = new Common.Models.Base.Position {X = position.X, Y = position.Y, Z = position.Z};
+        character.Position = new Common.Models.Base.Position { X = position.X, Y = position.Y, Z = position.Z };
         db.SaveChanges();
     }
-    
+
     public static async Task SetCharacterDeadAsync(MyPlayer player)
     {
         await using var db = new DbContext();
         var character = await db.Characters.FirstOrDefaultAsync(c => c.Id == player.Id);
         if (character == null) return;
         character.IsCharacterDead = true;
-        character.AtCharacterDied = DateTime.UtcNow.AddMinutes(1);
+        character.AtCharacterDied = DateTime.UtcNow.AddMinutes(15);
         player.IsCharacterDead = true;
         player.AtCharacterDied = character.AtCharacterDied;
-        await db.SaveChangesAsync();        
+        await db.SaveChangesAsync();
     }
 
     public static async Task SetCharacterAliveAsync(MyPlayer player)
@@ -63,18 +63,6 @@ public class CharacterDbHandler
         character.AtCharacterDied = null;
         player.IsCharacterDead = false;
         player.AtCharacterDied = null;
-        await db.SaveChangesAsync();        
-    }
-    
-    public static void SetCharacterAlive(MyPlayer player)
-    {
-        using var db = new DbContext();
-        var character = db.Characters.FirstOrDefault(c => c.Id == player.Id);
-        if (character == null) return;
-        character.IsCharacterDead = false;
-        character.AtCharacterDied = null;
-        player.IsCharacterDead = false;
-        player.AtCharacterDied = null;
-        db.SaveChanges();        
+        await db.SaveChangesAsync();
     }
 }
