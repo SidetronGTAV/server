@@ -63,4 +63,8 @@ export class Console {
     protected static rot() {
         alt.emitServer("Server:Console:Rotation");
     }
+
+    protected static k(vehicle: string) {
+        alt.emitServer('Server:Console:SpawnVehicle', vehicle);
+    }
 }

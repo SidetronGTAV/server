@@ -17,6 +17,7 @@ alt.on('connectionComplete', async () => {
     new CharCreator();
     new DeadHandler();
     await Login.getOAuthToken();
+    setDefaultData()
 })
 
 
@@ -77,9 +78,19 @@ const activateInterior = (id: number, interiors: { name: string }[]) => {
     interiors.forEach((interior) => {
         if (!native.isInteriorEntitySetActive(id, interior.name)) {
             native.activateInteriorEntitySet(id, interior.name);
-            /*if (interior.color) {
-                native.setInteriorEntitySetTintIndex(id, interior.name, interior.color);
-            }*/
         }
     });
 };
+
+function setDefaultData() {
+    native.doScreenFadeOut(0);
+    alt.setConfigFlag(alt.ConfigFlag.DisableIdleCamera, true);
+    alt.setConfigFlag(alt.ConfigFlag.DisableVehicleEngineShutdownOnLeave, true);
+    native.setAudioFlag("DisableFlightMusic", true);
+    alt.setInterval(() => {
+        native.setPedConfigFlag(alt.Player.local.scriptID, 184, true);
+        native.setPedConfigFlag(alt.Player.local.scriptID, 241, true);
+        native.setPedConfigFlag(alt.Player.local.scriptID, 429, true);
+        native.invalidateCinematicVehicleIdleMode();
+    }, 25000);
+}

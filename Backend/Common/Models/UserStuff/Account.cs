@@ -5,8 +5,6 @@ namespace Common.Models.UserStuff;
 
 public class Account : IdBase
 {
-    public string Username { get; set; }
-
     public long DiscordId { get; set; }
 
     public string DiscordUsername { get; set; }
@@ -16,7 +14,7 @@ public class Account : IdBase
     public ulong HardwareIdExHash { get; set; }
 
     public ulong SocialClubId { get; set; }
-    
+
     public SupportLevel SupportLevel { get; set; }
 
     public bool Whitelisted { get; set; }

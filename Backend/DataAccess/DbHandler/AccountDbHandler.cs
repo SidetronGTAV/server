@@ -42,4 +42,19 @@ public class AccountDbHandler
 
         return account;
     }
+
+    public static async Task<bool> FindOtherHardwareIdHashesAsync(Account account)
+    {
+        try
+        {
+            await using var db = new DbContext();
+            var accounts = await db.Accounts.SingleOrDefaultAsync(a =>
+                a.HardwareIdHash == account.HardwareIdHash || a.HardwareIdExHash == account.HardwareIdExHash);
+            return true;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
 }

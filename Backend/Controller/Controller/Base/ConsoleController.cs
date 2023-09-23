@@ -114,6 +114,7 @@ public class ConsoleController : IScript
 
         var targetPlayer = id != null ? (MyPlayer)Alt.GetPlayerById((uint)id) : player;
         await CharacterHandler.RevivePlayerAsync(targetPlayer);
+        targetPlayer.Health = targetPlayer.MaxHealth;
     }
 
     [ClientEvent("Server:Console:Rotation")]

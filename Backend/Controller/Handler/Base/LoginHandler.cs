@@ -38,6 +38,20 @@ public class LoginHandler
             return null;
         }
 
+        if (account.HardwareIdHash != player.HardwareIdHash || account.HardwareIdExHash != player.HardwareIdExHash)
+        {
+            player.Kick("Deine HardwareId ist falsch! Wende dich an den Support!");
+            //TODO: Ban User
+            return null;
+        }
+
+        if (!await AccountDbHandler.FindOtherHardwareIdHashesAsync(account))
+        {
+            player.Kick("Multiaccount Sperre! Wende dich an den Support!");
+            //TODO: Ban User
+            return null;
+        }
+
         var config = new MapperConfiguration(cfg =>
             cfg.CreateMap<Character, CharacterSmallDto>().ForMember(ch => ch.Fullname,
                 src => src.MapFrom(ch => $"{ch.Firstname} {ch.Lastname}")));
