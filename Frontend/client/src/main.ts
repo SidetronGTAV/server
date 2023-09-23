@@ -89,8 +89,7 @@ function setDefaultData() {
     native.setAudioFlag("DisableFlightMusic", true);
     alt.setInterval(() => {
         native.setPedConfigFlag(alt.Player.local.scriptID, 184, true);
-        native.setPedConfigFlag(alt.Player.local.scriptID, 241, true);
-        native.setPedConfigFlag(alt.Player.local.scriptID, 429, true);
+        //native.setPedConfigFlag(alt.Player.local.scriptID, 429, true);
         native.invalidateCinematicVehicleIdleMode();
     }, 25000);
 }
