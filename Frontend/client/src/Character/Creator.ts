@@ -116,7 +116,7 @@ export class CharCreator {
         if (!Webview.OpenUi(Events.CharCreator.handleCharCreator)) return;
 
         CharCreator.isCharCreatorOpen = true;
-
+        native.doScreenFadeIn(0);
 
         const forwardVector = native.getEntityForwardVector(alt.Player.local.scriptID);
         const position: position = [-1562.5055 + forwardVector.x, -579.6528 + forwardVector.y, 108.50769 + 0.6];
