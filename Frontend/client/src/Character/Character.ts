@@ -36,6 +36,7 @@ export class Character {
     }
 
     private static SetStartNativeProperties() {
+        native.doScreenFadeIn(0);
         Player.toggleController(false);
         Player.freeze(true);
         Camera.deleteAllCam();
@@ -50,6 +51,7 @@ export class Character {
     }
 
     private static SetStopNativeProperties() {
+        native.doScreenFadeIn(0);
         Player.toggleController(true);
         Player.freeze(false);
         Camera.deleteAllCam();
