@@ -24,7 +24,7 @@ export class Console {
      }
 
      protected static pos(): void {
-          alt.emitServer('Server:Console:PlayerPosition');
+          alt.log('Position: ' + alt.Player.local.pos);
      }
 
      protected static id(): void {

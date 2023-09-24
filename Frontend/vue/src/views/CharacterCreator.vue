@@ -127,11 +127,11 @@ const data = ref({
      },
 });
 const count = ref(0);
-const showCharCreator = ref(true);
+const showCharCreator = ref(false);
 
 function setCharacter() {
      if ('alt' in window) {
-          alt.emit('Client:CharCreator:close');
+          alt.emit('Client:CharCreator:close', JSON.stringify(data.value.Birthday));
      }
 }
 

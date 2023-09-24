@@ -130,7 +130,7 @@ export class CharCreator {
           Entity.Visible(alt.Player.local, false);
      }
 
-     public static CloseCharCreator(): void {
+     public static CloseCharCreator(birthday: string): void {
           if (!CharCreator.isCharCreatorOpen) return;
           if (!Webview.CloseUi(Events.CharCreator.handleCharCreator)) return;
 
@@ -147,7 +147,7 @@ export class CharCreator {
                JSON.stringify(CharCreator.previousData),
                CharCreator.previousData.Firstname,
                CharCreator.previousData.Lastname,
-               JSON.stringify(CharCreator.previousData.Birthday),
+               birthday,
           );
      }
 

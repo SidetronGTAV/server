@@ -43,13 +43,7 @@ public class ConsoleController : IScript
         });
         Alt.ForEachVehicles(callback);
     }
-
-    [ClientEvent("Server:Console:PlayerPosition")]
-    public static void OnPlayerPosition(MyPlayer player)
-    {
-        Console.WriteLine($"Position {player.Name}: {player.Position}");
-    }
-
+    
     [ClientEvent("Server:Console:PlayerID")]
     public static void OnGetPlayerId(MyPlayer player)
     {

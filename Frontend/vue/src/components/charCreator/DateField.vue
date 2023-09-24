@@ -11,6 +11,8 @@
                          v-model="object[dateKey]"
                          :teleport="true"
                          locale="de"
+                         :min-date="new Date(1900 + (new Date().getFullYear() - 2000), 1, 1)"
+                         :max-date="new Date()"
                          :dark="true"
                          :format-locale="de"
                          format="dd.MM.yyyy"
