@@ -142,11 +142,9 @@ export class CharCreator {
                     native.setCamCoord(CharCreator.Cam, CharCreator.CamPosition[0], position.y, position.z - 0.1);
                     break;
                case alt.KeyCode.Left:
-                    alt.log('Left');
                     native.setEntityHeading(CharCreator.Ped, native.getEntityHeading(CharCreator.Ped) - 10);
                     break;
                case alt.KeyCode.Right:
-                    alt.log('Right');
                     native.setEntityHeading(CharCreator.Ped, native.getEntityHeading(CharCreator.Ped) + 10);
                     break;
                case alt.KeyCode.PageUp:
