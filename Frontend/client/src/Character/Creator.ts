@@ -103,6 +103,7 @@ export class CharCreator {
      private static isCharCreatorOpen: boolean;
      private static Ped: number;
      private static Cam: number;
+     private static CamPosition: position;
 
      constructor() {
           Webview.Webview.on(Events.CharCreator.setCharCreatorProperty, CharCreator.SetProperty);
@@ -119,20 +120,50 @@ export class CharCreator {
           native.doScreenFadeIn(0);
 
           const forwardVector = native.getEntityForwardVector(alt.Player.local);
-          const position: position = [-1562.5055 + forwardVector.x, -579.6528 + forwardVector.y, 108.50769 + 0.6];
-          CharCreator.Cam = Camera.create(position, [0, 0, 0], 90);
-          const playerRot = native.getEntityRotation(CharCreator.Cam, 1);
-          native.setCamRot(CharCreator.Cam, playerRot.x, playerRot.y, playerRot.z, 1);
-          Camera.pointCamToEntity(CharCreator.Cam, alt.Player.local);
+          CharCreator.CamPosition = [-1562.5055 + forwardVector.x, -579.6528 + forwardVector.y, 108.50769 + 0.6];
+          CharCreator.Cam = Camera.create(CharCreator.CamPosition, [0, 0, 0], 90);
+          const playerRot = native.getEntityRotation(CharCreator.Cam, 2);
+          native.setCamRot(CharCreator.Cam, playerRot.x, playerRot.y, playerRot.z + 180, 2);
           CharCreator.StartPed();
-          Entity.Freeze(CharCreator.Ped, true);
           Entity.Freeze(alt.Player.local, true);
           Entity.Visible(alt.Player.local, false);
+          alt.on('keyup', CharCreator.onKeyUp);
+     }
+
+     public static onKeyUp(key: number): void {
+          const position = native.getCamCoord(CharCreator.Cam);
+          switch (key) {
+               case alt.KeyCode.Up:
+                    if (CharCreator.CamPosition[2] + 0.2 <= position.z + 0.1) return;
+                    native.setCamCoord(CharCreator.Cam, CharCreator.CamPosition[0], position.y, position.z + 0.1);
+                    break;
+               case alt.KeyCode.Down:
+                    if (CharCreator.CamPosition[2] - 1.2 >= position.z - 0.1) return;
+                    native.setCamCoord(CharCreator.Cam, CharCreator.CamPosition[0], position.y, position.z - 0.1);
+                    break;
+               case alt.KeyCode.Left:
+                    alt.log('Left');
+                    native.setEntityHeading(CharCreator.Ped, native.getEntityHeading(CharCreator.Ped) - 10);
+                    break;
+               case alt.KeyCode.Right:
+                    alt.log('Right');
+                    native.setEntityHeading(CharCreator.Ped, native.getEntityHeading(CharCreator.Ped) + 10);
+                    break;
+               case alt.KeyCode.PageUp:
+                    if (CharCreator.CamPosition[1] - 0.6 >= position.y - 0.1) return;
+                    native.setCamCoord(CharCreator.Cam, CharCreator.CamPosition[0], position.y - 0.1, position.z);
+                    break;
+               case alt.KeyCode.PageDown:
+                    if (CharCreator.CamPosition[1] <= position.y + 0.1) return;
+                    native.setCamCoord(CharCreator.Cam, CharCreator.CamPosition[0], position.y + 0.1, position.z);
+                    break;
+          }
      }
 
      public static CloseCharCreator(birthday: string): void {
           if (!CharCreator.isCharCreatorOpen) return;
           if (!Webview.CloseUi(Events.CharCreator.handleCharCreator)) return;
+          alt.off('keyup', CharCreator.onKeyUp);
 
           CharCreator.isCharCreatorOpen = false;
           Camera.DestroyCam(CharCreator.Cam);
@@ -155,14 +186,8 @@ export class CharCreator {
           const player = alt.Player.local;
 
           CharCreator.Ped = Ped.ClonePed(player);
-          Entity.Freeze(CharCreator.Ped, true);
 
           native.setPedHeadBlendData(CharCreator.Ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
-
-          const rotationPlayer = native.getEntityRotation(player, 2);
-
-          native.setCamRot(CharCreator.Cam, rotationPlayer.x, rotationPlayer.y, rotationPlayer.z, 2);
-          native.pointCamAtEntity(CharCreator.Cam, CharCreator.Ped, 0, 0, 0, true);
           Camera.renderCam(true, false, 0);
      }
 
