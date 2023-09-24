@@ -1,4 +1,5 @@
-﻿using Common.Models;
+﻿using AltV.Net;
+using Common.Models;
 using Common.Models.Base;
 using Common.Models.Discord;
 using Common.Models.UserStuff;
@@ -15,41 +16,22 @@ public class AccountDbHandler
             .FirstOrDefaultAsync(x => x.DiscordId == discordId);
     }
 
-    public static async Task<Account> CreateAccountAsync(MyPlayer player, DiscordUser discordUser)
+    public static async Task<int> SaveAccountAsync(Account account)
     {
-        var altDiscordAccount = await GetAccountByDiscordIdAsync(player.DiscordId);
-
-        if (altDiscordAccount != null)
-        {
-            player.Kick(
-                "Dein Discord Account wo du dich gerade eingeloggt hast, ist mit nicht der selbe wie der wo du dich das letzte mal eingeloggt hast! Bitte Wende dich an den Support!");
-            return null;
-        }
-
-        var account = new Account()
-        {
-            DiscordId = discordUser.id,
-            DiscordUsername = discordUser.username,
-            HardwareIdHash = player.HardwareIdHash,
-            HardwareIdExHash = player.HardwareIdExHash,
-            SocialClubId = player.SocialClubId,
-            MaxCharacters = 1
-        };
-
         await using var db = new DbContext();
-        await db.Accounts.AddAsync(account);
+        var result = account.Id == 0 ? db.Accounts.Add(account) : db.Accounts.Update(account);
         await db.SaveChangesAsync();
-
-        return account;
+        return result.Entity.Id;
     }
 
-    public static async Task<bool> FindOtherHardwareIdHashesAsync(Account account)
+    public static async Task<bool> FindOtherHardwareIdHashesAndSocialClubIdsAsync(Account account)
     {
         try
         {
             await using var db = new DbContext();
             var accounts = await db.Accounts.SingleOrDefaultAsync(a =>
-                a.HardwareIdHash == account.HardwareIdHash || a.HardwareIdExHash == account.HardwareIdExHash);
+                (a.HardwareIdHash == account.HardwareIdHash && a.HardwareIdExHash == account.HardwareIdExHash) ||
+                a.SocialClubId == account.SocialClubId);
             return true;
         }
         catch (InvalidOperationException)

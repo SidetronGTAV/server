@@ -4,32 +4,38 @@ using System.Text;
 using System.Text.Json;
 using AltV.Net;
 using AltV.Net.Async;
+using AltV.Net.Elements.Entities;
 using Common.Dto.UserStuff;
 using Common.Models;
 using Common.Models.Discord;
 using Controller.Handler.Base;
+using Controller.Handler.Base.CharacterStuff;
 
 namespace Controller.Controller.Base;
 
 public class LoginController : IScript
 {
-    [AsyncClientEvent("Server:Login:LoginUser")]
-    public async Task OnLoginUser(MyPlayer player, string token)
+    public LoginController()
+    {
+        AltAsync.OnClient<MyPlayer, string, Task>("Server:Login:LoginUser", LoginUserAsync);
+    }
+
+    private static async Task LoginUserAsync(MyPlayer player, string token)
     {
         if (player.IsLoggin)
         {
-            //TODO: Ban User
+            //TODO: Kick User
             return;
         }
 
-        var discordUser = await LoginHandler.HandleDiscordUserAsync(token);
+        var discordUser = await LoginHandler.GetDiscordUserAsync(token);
         if (discordUser == null)
         {
             player.Kick("Dein Discord Account wurde nicht gefunden! Bitte Wende dich an den Support!");
             return;
         }
 
-        List<CharacterSmallDto> characters = await LoginHandler.HandleUserLoginAsync(player, discordUser);
+        var characters = await LoginHandler.HandleUserLoginAndLoadUserCharactersAsync(player, discordUser);
 
         if (characters == null)
         {
@@ -42,6 +48,6 @@ public class LoginController : IScript
             return;
         }
 
-        await CharacterHandler.StartCharacterSelector(player, characters);
+        await CharacterHandler.StartCharacterSelectorAsync(player, characters);
     }
 }

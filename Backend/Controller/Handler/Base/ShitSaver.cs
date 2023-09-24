@@ -1,22 +1,23 @@
 ﻿using System.Collections.Concurrent;
 using System.Timers;
 using AltV.Net;
-using AltV.Net.Async;
 using AltV.Net.Elements.Entities;
 using Common.Models;
-using Controller.Handler.Base;
+using Controller.Handler.Base.CharacterStuff;
 using DataAccess.DbHandler;
+
+namespace Controller.Handler.Base;
 
 public class ShitSaver
 {
-    private const int PLAYERS_PER_TICK = 10;
-    private const int TICK_INTERVAL = 1000;
+    private const int PlayersPerTick = 10;
+    private const int TickInterval = 1000;
 
     private readonly ConcurrentQueue<IPlayer> _allFuckingPlayers = new();
 
     public ShitSaver()
     {
-        var t = new System.Timers.Timer(TICK_INTERVAL);
+        var t = new System.Timers.Timer(TickInterval);
         t.Elapsed += OnSaveShit;
         t.Start();
     }
@@ -31,15 +32,15 @@ public class ShitSaver
             }
         }
 
-        for (var i = 0; i < PLAYERS_PER_TICK; i++)
+        for (var i = 0; i < PlayersPerTick; i++)
         {
             if (!_allFuckingPlayers.TryDequeue(out var player)) return;
             if (!player.Exists) continue;
             var myPlayer = (MyPlayer)player;
             if (myPlayer.IsInCharacterId == 0) continue;
-            if (myPlayer.AtCharacterDied < DateTime.UtcNow)
+            if (myPlayer.AtCharacterUnconscious < DateTime.UtcNow)
             {
-                Task.Run(() => CharacterHandler.DoCharacterDiedAsync(myPlayer));
+                Task.Run(() => CharacterHandler.CharacterDieAsync(myPlayer));
             }
 
             CharacterDbHandler.SaveCharacterPosition(myPlayer.IsInCharacterId, player.Position);

@@ -18,9 +18,11 @@ public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
 
     public int IsInCharacterId { get; set; } = 0;
 
-    public bool IsCharacterDead { get; set; }
+    public bool IsCharacterUnconscious { get; set; }
 
-    public DateTime? AtCharacterDied { get; set; }
+    public DateTime? AtCharacterUnconscious { get; set; }
+
+    public bool IsCharacterDead { get; set; }
 
     public int MaxCharacters { get; set; }
 

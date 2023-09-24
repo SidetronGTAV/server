@@ -4,6 +4,8 @@ using AltV.Net.Elements.Entities;
 using Common.Enums;
 using Common.Models;
 using Controller.Handler.Base;
+using Controller.Handler.Base.CharacterStuff;
+using Controller.Utility.Callback;
 using DataAccess.DbHandler;
 
 namespace Controller.Controller.Base;
@@ -43,7 +45,7 @@ public class ConsoleController : IScript
         });
         Alt.ForEachVehicles(callback);
     }
-    
+
     [ClientEvent("Server:Console:PlayerID")]
     public static void OnGetPlayerId(MyPlayer player)
     {
@@ -107,7 +109,7 @@ public class ConsoleController : IScript
         }
 
         var targetPlayer = id != null ? (MyPlayer)Alt.GetPlayerById((uint)id) : player;
-        await CharacterHandler.RevivePlayerAsync(targetPlayer);
+        await CharacterHandler.ReviveCharacterAsync(targetPlayer);
         targetPlayer.Health = targetPlayer.MaxHealth;
     }
 

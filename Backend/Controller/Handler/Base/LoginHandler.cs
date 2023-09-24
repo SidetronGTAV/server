@@ -12,7 +12,7 @@ namespace Controller.Handler.Base;
 
 public class LoginHandler
 {
-    public static async Task<DiscordUser?> HandleDiscordUserAsync(string token)
+    public static async Task<DiscordUser?> GetDiscordUserAsync(string token)
     {
         var request = new HttpRequestMessage()
         {
@@ -27,10 +27,11 @@ public class LoginHandler
         return await response.Content.ReadFromJsonAsync<DiscordUser>();
     }
 
-    public static async Task<List<CharacterSmallDto>> HandleUserLoginAsync(MyPlayer player, DiscordUser discordUser)
+    public static async Task<List<CharacterSmallDto>?> HandleUserLoginAndLoadUserCharactersAsync(MyPlayer player,
+        DiscordUser discordUser)
     {
         var account = await AccountDbHandler.GetAccountByDiscordIdAsync(discordUser.id) ??
-                      await AccountDbHandler.CreateAccountAsync(player, discordUser);
+                      await AccountHandler.CreateAccountAsync(player, discordUser);
 
         if (!account.Whitelisted)
         {
@@ -45,7 +46,7 @@ public class LoginHandler
             return null;
         }
 
-        if (!await AccountDbHandler.FindOtherHardwareIdHashesAsync(account))
+        if (!await AccountDbHandler.FindOtherHardwareIdHashesAndSocialClubIdsAsync(account))
         {
             player.Kick("Multiaccount Sperre! Wende dich an den Support!");
             //TODO: Ban User
@@ -53,15 +54,15 @@ public class LoginHandler
         }
 
         var config = new MapperConfiguration(cfg =>
-            cfg.CreateMap<Character, CharacterSmallDto>().ForMember(ch => ch.Fullname,
-                src => src.MapFrom(ch => $"{ch.Firstname} {ch.Lastname}")));
+            cfg.CreateMap<Character, CharacterSmallDto>()
+                .ForMember(ch => ch.Fullname, src => src.MapFrom(ch => $"{ch.Firstname} {ch.Lastname}")));
         var mapper = new Mapper(config);
         var characters = mapper.Map<List<Character>, List<CharacterSmallDto>>(account.Characters);
-        SetAccountData(player, account, characters);
+        SetAccountDbDataToPlayer(player, account, characters);
         return characters;
     }
 
-    private static void SetAccountData(MyPlayer player, Account account, List<CharacterSmallDto> characters)
+    private static void SetAccountDbDataToPlayer(MyPlayer player, Account account, List<CharacterSmallDto> characters)
     {
         player.Characters = characters;
         player.MaxCharacters = account.MaxCharacters;
@@ -69,6 +70,5 @@ public class LoginHandler
         player.AccountDiscordId = account.DiscordId;
         player.IsLoggin = true;
         player.SupportLevel = account.SupportLevel;
-        player.Emit("Client:Login:LoginSuccess");
     }
 }

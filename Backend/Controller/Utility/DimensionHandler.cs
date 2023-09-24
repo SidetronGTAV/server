@@ -1,25 +1,25 @@
 ﻿namespace Controller.Utility;
 
-public class DimensionHandler
+public abstract class DimensionHandler
 {
-    private static List<uint> _dimensions = new();
-    public static readonly int DefaultDimension = 0;
+    private static readonly List<uint> Dimensions = new();
+    public const int DefaultDimension = 0;
 
 
     public static int GetPrivateDimension()
     {
         var dimension = 1;
-        while (_dimensions.Contains((uint)dimension))
+        while (Dimensions.Contains((uint)dimension))
         {
             dimension++;
         }
 
-        _dimensions.Add((uint)dimension);
+        Dimensions.Add((uint)dimension);
         return dimension;
     }
 
     public static void RemovePrivateDimension(int dimension)
     {
-        _dimensions.Remove((uint)dimension);
+        Dimensions.Remove((uint)dimension);
     }
 }

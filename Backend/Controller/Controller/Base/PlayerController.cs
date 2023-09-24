@@ -17,33 +17,26 @@ public class PlayerController : IScript
 {
     public PlayerController()
     {
+        Alt.OnPlayerConnect += OnPlayerConnection;
+        Alt.OnPlayerDisconnect += OnPlayerDisconnect;
+        AltAsync.OnPlayerDead += OnPlayerDeadAsync;
         Alt.OnClientRequestObject += OnClientRequestObject;
         Alt.OnClientDeleteObject += OnClientDeleteObject;
     }
 
-    [ScriptEvent(ScriptEventType.PlayerConnect)]
-    public void OnPlayerConnection(MyPlayer player, string reason)
+    private static void OnPlayerConnection(IPlayer player, string reason)
     {
-        PlayerHandler.HandlePlayerConnect(player);
+        PlayerHandler.HandlePlayerConnect((MyPlayer)player);
     }
 
-    [ScriptEvent(ScriptEventType.PlayerDisconnect)]
-    public void OnPlayerDisconnect(MyPlayer player, string reason)
+    private static void OnPlayerDisconnect(IPlayer player, string reason)
     {
-        PlayerHandler.HandlePlayerDisconnect(player);
+        PlayerHandler.HandlePlayerDisconnect((MyPlayer)player);
     }
 
-    [AsyncScriptEvent(ScriptEventType.PlayerDead)]
-    public async Task OnPlayerDeadAsync(MyPlayer player, IEntity killer, uint weapon)
+    private static async Task OnPlayerDeadAsync(IPlayer player, IEntity killer, uint weapon)
     {
-        if (player.IsInCharacterId == 0)
-        {
-            player.Spawn(player.Position);
-            return;
-        }
-
-        await CharacterDbHandler.SetCharacterDeadAsync(player);
-        player.Emit("Client:DeadHandler:Dead");
+        await PlayerHandler.HandlePlayerDead((MyPlayer)player, killer, weapon);
     }
 
     private static bool OnClientRequestObject(IPlayer target, uint model, Position position)

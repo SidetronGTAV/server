@@ -5,25 +5,34 @@ using AltV.Net.Async;
 using Common.Models;
 using Common.Models.UserStuff.CharacterSkin;
 using Controller.Handler.Base;
+using Controller.Handler.Base.CharacterStuff;
 
 namespace Controller.Controller.Base;
 
 public class CharacterController : IScript
 {
-    [AsyncClientEvent("Server:Character:SelectCharacter")]
-    public async Task OnSelectCharacterAsync(MyPlayer player, int id)
+    public CharacterController()
+    {
+        AltAsync.OnClient<MyPlayer, int, Task>("Server:Character:SelectCharacter", SelectCharacterAsync);
+        AltAsync.OnClient<MyPlayer, int, Task>("Server:Character:ChangeCharacterSkin", ChangeCharacterSkinAsync);
+        AltAsync.OnClient<MyPlayer, string, string, string, string, Task>("Server:Character:CreateCharacter",
+            CreateCharacterAsync);
+        Alt.OnClient<MyPlayer>("Server:Character:OpenCharacterCreator", OnOpenCharacterCreatorAsync);
+    }
+
+    private static async Task SelectCharacterAsync(MyPlayer player, int id)
     {
         await CharacterHandler.SelectCharacterAsync(player, id);
     }
 
-    [AsyncClientEvent("Server:Character:ChangeCharacter")]
-    public static async Task OnChangeCharacterAsync(MyPlayer player, int id)
+    private static async Task ChangeCharacterSkinAsync(MyPlayer player, int id)
     {
-        await CharacterHandler.ChangeCharacterAsync(player, id);
+        await CharacterHandler.ChangeCharacterSkinAsync(player, id);
     }
 
     [AsyncClientEvent("Server:Character:CreateCharacter")]
-    public async Task OnCreateCharacterAsync(MyPlayer player, string characterSkin, string firstname, string lastname,
+    private static async Task CreateCharacterAsync(MyPlayer player, string characterSkin, string firstname,
+        string lastname,
         string birthdayString)
     {
         if (player.IsInCharacterId != 0 ||
@@ -44,8 +53,7 @@ public class CharacterController : IScript
         await CharacterHandler.CreateCharacterAsync(player, deserializedCharacterSkin, firstname, lastname, birthday);
     }
 
-    [AsyncClientEvent("Server:Character:OpenCharacterCreator")]
-    public static async Task OnOpenCharacterCreatorAsync(MyPlayer player)
+    private static void OnOpenCharacterCreatorAsync(MyPlayer player)
     {
         if (player.IsInCharacterId != 0 ||
             (player.MaxCharacters <= player.Characters.Count && player.MaxCharacters != -1))

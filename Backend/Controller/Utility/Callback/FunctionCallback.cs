@@ -1,6 +1,8 @@
 ﻿using AltV.Net.Elements.Entities;
 using AltV.Net.Elements.Pools;
 
+namespace Controller.Utility.Callback;
+
 public class FunctionCallback<T>
     : IBaseObjectCallback<T>
     where T : IBaseObject

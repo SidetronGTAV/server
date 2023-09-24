@@ -3,6 +3,7 @@ using AltV.Net.Async;
 using AltV.Net.Elements.Entities;
 using Common.Factories;
 using Controller.Controller.Base;
+using Controller.Handler.Base;
 using Microsoft.EntityFrameworkCore;
 using DbContext = DataAccess.DbContext;
 

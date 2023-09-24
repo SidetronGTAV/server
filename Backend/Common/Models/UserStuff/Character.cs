@@ -17,9 +17,9 @@ public class Character : IdBase
 
     public int CharacterSkinId { get; set; }
 
-    public bool IsCharacterDead { get; set; }
+    public bool IsCharacterUnconscious { get; set; }
 
-    public DateTime? AtCharacterDied { get; set; }
+    public DateTime? AtCharacterUnconscious { get; set; }
 
     public CharacterSkin.CharacterSkin CharacterSkin { get; set; }
 }

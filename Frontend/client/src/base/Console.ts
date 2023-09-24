@@ -56,17 +56,10 @@ export class Console {
      }
 
      protected static test(text: string) {
-          const vehicle = native.createVehicle(
-               alt.hash('ambulance'),
-               alt.Player.local.pos.x,
-               alt.Player.local.pos.y,
-               alt.Player.local.pos.z,
-               0,
-               true,
-               true,
-               false,
-          );
-          native.setSirenWithNoDriver(vehicle, true);
+          const pos = alt.Player.local.pos;
+          const ret = native.getClosestVehicleNode(pos.x, pos.y, pos.z, null, 21112, 12, 1);
+          alt.log(`ret type: ${typeof ret}`);
+          alt.log('args', ...(Array.isArray(ret) ? ret : []));
      }
 
      protected static rot() {

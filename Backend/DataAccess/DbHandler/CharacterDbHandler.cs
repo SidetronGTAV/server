@@ -4,6 +4,7 @@ using Common.Models;
 using Common.Models.UserStuff;
 using Common.Models.UserStuff.CharacterSkin;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DataAccess.DbHandler;
 
@@ -12,23 +13,27 @@ public class CharacterDbHandler
     public static async Task<Character?> GetCharacterByIdAsync(int id)
     {
         await using var db = new DbContext();
-        return await db.Characters.Include(ch => ch.CharacterSkin).FirstOrDefaultAsync(c => c.Id == id);
+        return await db.Characters
+            .Include(ch => ch.CharacterSkin)
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public static async Task<Character> SetCharacterAsync(Character character)
+    public static async Task<int> SaveCharacterAsync(Character character)
     {
         await using var db = new DbContext();
-        character.Id = 0;
-        var result = await db.Characters.AddAsync(character);
+
+        var result = character.Id == 0 ? db.Characters.Add(character) : db.Characters.Update(character);
         await db.SaveChangesAsync();
-        return result.Entity;
+        return result.Entity.Id;
     }
 
-    public static async Task<CharacterSkin> SetCharacterSkinAsync(CharacterSkin characterSkin)
+    public static async Task<CharacterSkin> SaveCharacterSkinAsync(CharacterSkin characterSkin)
     {
         await using var db = new DbContext();
-        characterSkin.Id = 0;
-        var result = await db.CharacterSkins.AddAsync(characterSkin);
+
+        var result = characterSkin.Id == 0
+            ? db.CharacterSkins.Add(characterSkin)
+            : db.CharacterSkins.Update(characterSkin);
         await db.SaveChangesAsync();
         return result.Entity;
     }
@@ -40,29 +45,5 @@ public class CharacterDbHandler
         if (character == null) return;
         character.Position = new Common.Models.Base.Position { X = position.X, Y = position.Y, Z = position.Z };
         db.SaveChanges();
-    }
-
-    public static async Task SetCharacterDeadAsync(MyPlayer player)
-    {
-        await using var db = new DbContext();
-        var character = await db.Characters.FirstOrDefaultAsync(c => c.Id == player.Id);
-        if (character == null) return;
-        character.IsCharacterDead = true;
-        character.AtCharacterDied = DateTime.UtcNow.AddMinutes(15);
-        player.IsCharacterDead = true;
-        player.AtCharacterDied = character.AtCharacterDied;
-        await db.SaveChangesAsync();
-    }
-
-    public static async Task SetCharacterAliveAsync(MyPlayer player)
-    {
-        await using var db = new DbContext();
-        var character = await db.Characters.FirstOrDefaultAsync(c => c.Id == player.Id);
-        if (character == null) return;
-        character.IsCharacterDead = false;
-        character.AtCharacterDied = null;
-        player.IsCharacterDead = false;
-        player.AtCharacterDied = null;
-        await db.SaveChangesAsync();
     }
 }
