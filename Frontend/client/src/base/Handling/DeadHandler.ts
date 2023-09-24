@@ -2,18 +2,19 @@ import { Webview } from '../Webview.js';
 import * as alt from 'alt-client';
 import { Entity } from '../Entity.js';
 import * as native from 'natives';
+import Events from '../../lib/Events.js';
 
 export class DeadHandler {
      private static _interval: number = null;
 
      constructor() {
-          alt.onServer('Client:DeadHandler:Dead', DeadHandler.dead);
-          alt.onServer('Client:DeadHandler:Revived', DeadHandler.revived);
-          alt.onServer('Client:DeadHandler:Died', DeadHandler.died);
+          alt.onServer(Events.DeadHandler.dead, DeadHandler.dead);
+          alt.onServer(Events.DeadHandler.revived, DeadHandler.revived);
+          alt.onServer(Events.DeadHandler.died, DeadHandler.died);
      }
 
      private static dead() {
-          Entity.ToogleControls(false);
+          Entity.ToggleControls(false);
           native.animpostfxPlay('DefaultBlinkOutro', 3000, false);
           native.animpostfxPlay('DeathFailNeutralIn', 10000, true);
           if (DeadHandler._interval !== null) alt.clearInterval(DeadHandler._interval);
@@ -23,15 +24,15 @@ export class DeadHandler {
      }
 
      private static revived() {
-          Webview.Webview.emit('Webview:DeadScreen:State', false);
-          Entity.ToogleControls(true);
+          Webview.Webview.emit(Events.DeadHandler.WebviewDeadHandlerState, false);
+          Entity.ToggleControls(true);
           alt.clearInterval(DeadHandler._interval);
           DeadHandler._interval = null;
           native.animpostfxStopAll();
      }
 
      private static died(vehicleId: number) {
-          Webview.Webview.emit('Webview:DeadScreen:State', true);
+          Webview.Webview.emit(Events.DeadHandler.WebviewDeadHandlerState, true);
           alt.setTimeout(() => {
                const vehicle = alt.Vehicle.getByRemoteID(vehicleId);
                native.setPedIntoVehicle(alt.Player.local, vehicle, -1);

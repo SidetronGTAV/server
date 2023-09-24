@@ -3,36 +3,37 @@ import * as native from 'natives';
 import { Player } from '../Utilities/Player.js';
 import { Camera } from '../Utilities/Camera.js';
 import { Webview } from '../base/Webview.js';
+import Events from '../lib/Events.js';
 
 export class Character {
      private static _camera: number;
 
      constructor() {
-          alt.onServer('Client:Character:Start', Character.StartCharacter);
-          Webview.Webview.on('Client:Character:SelectCharacter', Character.SelectCharacter);
-          Webview.Webview.on('Client:Character:ChangeCharacter', Character.ChangeCharacter);
-          Webview.Webview.on('Client:Character:OpenCharacterCreator', Character.OpenCharacterCreator);
+          alt.onServer(Events.CharSelector.startCharSelector, Character.StartCharacter);
+          Webview.Webview.on(Events.CharSelector.selectCharacter, Character.SelectCharacter);
+          Webview.Webview.on(Events.CharSelector.changeCharacter, Character.ChangeCharacter);
+          Webview.Webview.on(Events.CharSelector.openCharacterCreator, Character.OpenCharacterCreator);
      }
 
      private static StartCharacter(characters: string, showCharacterCreator: boolean): void {
           Character.SetStartNativeProperties();
-          Webview.OpenUi('Webview:Character:OpenSelector', JSON.parse(characters), showCharacterCreator);
+          Webview.OpenUi(Events.CharSelector.WebviewOpenCharSelector, JSON.parse(characters), showCharacterCreator);
      }
 
      private static SelectCharacter(id: number): void {
-          Webview.CloseUi('Webview:Character:OpenSelector');
+          Webview.CloseUi(Events.CharSelector.WebviewOpenCharSelector);
           Character.SetStopNativeProperties();
-          alt.emitServer('Server:Character:SelectCharacter', id);
+          alt.emitServer(Events.CharSelector.ServerSelectCharacter, id);
      }
 
      private static ChangeCharacter(id: number): void {
-          alt.emitServer('Server:Character:ChangeCharacterSkin', id);
+          alt.emitServer(Events.CharSelector.ServerChangeCharacterSkin, id);
      }
 
      private static OpenCharacterCreator(): void {
           Character.SetStopNativeProperties();
-          Webview.CloseUi('Webview:Character:OpenSelector');
-          alt.emitServer('Server:Character:OpenCharacterCreator');
+          Webview.CloseUi(Events.CharSelector.WebviewOpenCharSelector);
+          alt.emitServer(Events.CharCreator.ServerOpenCharCreator);
      }
 
      private static SetStartNativeProperties() {
@@ -40,7 +41,7 @@ export class Character {
           Player.toggleController(false);
           Player.freeze(true);
           Camera.deleteAllCam();
-          const forwardVector = native.getEntityForwardVector(alt.Player.local.scriptID);
+          const forwardVector = native.getEntityForwardVector(alt.Player.local);
           const position: position = [-1562.5055 + forwardVector.x, -579.6528 + forwardVector.y, 108.50769 + 0.6];
           Character._camera = Camera.create(position, [0, 0, 0], 90);
           const playerRot = native.getEntityRotation(Character._camera, 1);

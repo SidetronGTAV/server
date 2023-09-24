@@ -33,8 +33,8 @@ function loadIpls(): void {
      native.pinInteriorInMemory(gabzPillbox);
      native.refreshInterior(gabzPillbox);
 
-     let gabzmrpd = native.getInteriorAtCoords(451.0129, -993.3741, 29.1718);
-     native.pinInteriorInMemory(gabzmrpd);
+     let gabzMrpd = native.getInteriorAtCoords(451.0129, -993.3741, 29.1718);
+     native.pinInteriorInMemory(gabzMrpd);
      const data = [
           { name: 'branded_style_set' },
           { name: 'v_gabz_mrpd_rm1' },
@@ -69,8 +69,8 @@ function loadIpls(): void {
           { name: 'v_gabz_mrpd_rm30' },
           { name: 'v_gabz_mrpd_rm31' },
      ];
-     activateInterior(gabzmrpd, data);
-     native.refreshInterior(gabzmrpd);
+     activateInterior(gabzMrpd, data);
+     native.refreshInterior(gabzMrpd);
 }
 
 const activateInterior = (id: number, interiors: { name: string }[]) => {

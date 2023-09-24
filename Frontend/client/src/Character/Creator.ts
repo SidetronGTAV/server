@@ -2,7 +2,7 @@ import { ICharCreator } from '../Interfaces/ICharCreator.js';
 import * as native from 'natives';
 import * as alt from 'alt-client';
 import { Webview } from '../base/Webview.js';
-import { Events } from '../lib/Events.js';
+import Events from '../lib/Events.js';
 import { Camera } from '../Utilities/Camera.js';
 import { Entity } from '../base/Entity.js';
 import { Ped } from '../base/Ped.js';
@@ -118,7 +118,7 @@ export class CharCreator {
           CharCreator.isCharCreatorOpen = true;
           native.doScreenFadeIn(0);
 
-          const forwardVector = native.getEntityForwardVector(alt.Player.local.scriptID);
+          const forwardVector = native.getEntityForwardVector(alt.Player.local);
           const position: position = [-1562.5055 + forwardVector.x, -579.6528 + forwardVector.y, 108.50769 + 0.6];
           CharCreator.Cam = Camera.create(position, [0, 0, 0], 90);
           const playerRot = native.getEntityRotation(CharCreator.Cam, 1);
@@ -154,12 +154,12 @@ export class CharCreator {
      private static StartPed(): void {
           const player = alt.Player.local;
 
-          CharCreator.Ped = Ped.ClonePed(alt.Player.local);
+          CharCreator.Ped = Ped.ClonePed(player);
           Entity.Freeze(CharCreator.Ped, true);
 
           native.setPedHeadBlendData(CharCreator.Ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
 
-          const rotationPlayer = native.getEntityRotation(player.scriptID, 2);
+          const rotationPlayer = native.getEntityRotation(player, 2);
 
           native.setCamRot(CharCreator.Cam, rotationPlayer.x, rotationPlayer.y, rotationPlayer.z, 2);
           native.pointCamAtEntity(CharCreator.Cam, CharCreator.Ped, 0, 0, 0, true);
@@ -172,7 +172,7 @@ export class CharCreator {
                     if (!native.hasModelLoaded(alt.hash('mp_m_freemode_01'))) {
                          native.requestModel(alt.hash('mp_m_freemode_01'));
                     } else {
-                         native.setPlayerModel(alt.Player.local.scriptID, alt.hash('mp_m_freemode_01'));
+                         native.setPlayerModel(alt.Player.local, alt.hash('mp_m_freemode_01'));
                          alt.clearEveryTick(tick);
                          Ped.DestroyPed(CharCreator.Ped);
                          CharCreator.StartPed();
@@ -183,7 +183,7 @@ export class CharCreator {
                     if (!native.hasModelLoaded(alt.hash('mp_f_freemode_01'))) {
                          native.requestModel(alt.hash('mp_f_freemode_01'));
                     } else {
-                         native.setPlayerModel(alt.Player.local.scriptID, alt.hash('mp_f_freemode_01'));
+                         native.setPlayerModel(alt.Player.local, alt.hash('mp_f_freemode_01'));
                          alt.clearEveryTick(tick);
                          Ped.DestroyPed(CharCreator.Ped);
                          CharCreator.StartPed();

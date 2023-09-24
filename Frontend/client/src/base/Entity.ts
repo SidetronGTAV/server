@@ -10,7 +10,7 @@ export class Entity {
           native.setEntityVisible(entity, visible, false);
      }
 
-     public static ToogleControls(toggle: boolean): void {
+     public static ToggleControls(toggle: boolean): void {
           alt.toggleGameControls(toggle);
      }
 }
