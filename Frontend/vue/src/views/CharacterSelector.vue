@@ -1,58 +1,54 @@
 <template>
-  <div v-if="showCharacter">
-    <div class="border-opacity-50 flex justify-start items-center w-full h-screen pl-5">
-      <div class="h-80 w-80 card bg-base-300 rounded-box place-items-center text-white p-5">
-        <div class="border-b border-b-neutral-50 w-full text-center pb-3">Character Selector</div>
-        <div class="max-h-60 overflow-y-scroll">
-          <div v-for="character in characters"
-               class="bg-base-100/30 p-2 rounded-lg w-72 grid grid-cols-2 items-center gap-x-5 my-3">
-            <div @click="changeCharacter(character.Id)">{{ character.Fullname }}</div>
-            <div class="flex justify-end items-center">
-              <button class="btn btn-sm w-10" @click="selectCharacter(character.Id)">
-                <font-awesome-icon icon="fa-solid fa-play"/>
-              </button>
-            </div>
+     <div v-if="showCharacter">
+          <div class="border-opacity-50 flex justify-start items-center w-full h-screen pl-5">
+               <div class="h-80 w-80 card bg-base-300 rounded-box place-items-center text-white p-5">
+                    <div class="border-b border-b-neutral-50 w-full text-center pb-3">Character Selector</div>
+                    <div class="max-h-60 overflow-y-scroll">
+                         <div v-for="character in characters" class="bg-base-100/30 p-2 rounded-lg w-72 grid grid-cols-2 items-center gap-x-5 my-3">
+                              <div @click="changeCharacter(character.Id)">{{ character.Fullname }}</div>
+                              <div class="flex justify-end items-center">
+                                   <button class="btn btn-sm w-10" @click="selectCharacter(character.Id)">
+                                        <font-awesome-icon icon="fa-solid fa-play" />
+                                   </button>
+                              </div>
+                         </div>
+                    </div>
+                    <div>
+                         <button v-if="canCreateCharacter" class="btn btn-sm mt-2" @click="createCharacter">
+                              <font-awesome-icon icon="fa-solid fa-plus" />
+                              Charakter erstellen
+                         </button>
+                    </div>
+               </div>
           </div>
-        </div>
-        <div>
-          <button v-if="canCreateCharacter" class="btn btn-sm mt-2" @click="createCharacter">
-            <font-awesome-icon icon="fa-solid fa-plus"/>
-            Charakter erstellen
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+     </div>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from 'vue';
 
 const characters = ref<Character[]>([]);
-const showCharacter = ref(false)
-const canCreateCharacter = ref(false)
+const showCharacter = ref(false);
+const canCreateCharacter = ref(false);
 
 function changeCharacter(id: number) {
-  if ('alt' in window)
-    alt.emit("Client:Character:ChangeCharacter", id)
+     if ('alt' in window) alt.emit('Client:Character:ChangeCharacter', id);
 }
 
 function selectCharacter(id: number) {
-  if ('alt' in window)
-    alt.emit("Client:Character:SelectCharacter", id)
+     if ('alt' in window) alt.emit('Client:Character:SelectCharacter', id);
 }
 
 function createCharacter() {
-  if ('alt' in window)
-    alt.emit("Client:Character:OpenCharacterCreator")
+     if ('alt' in window) alt.emit('Client:Character:OpenCharacterCreator');
 }
 
 onMounted(() => {
-  if ('alt' in window) {
-    alt.on("Webview:Character:OpenSelector", (show: boolean, clientCharacters: Character[], showCharCreatorButton: boolean) => {
-      characters.value = clientCharacters;
-      showCharacter.value = show;
-      canCreateCharacter.value = showCharCreatorButton;
-    })
-  }
-})
+     if ('alt' in window) {
+          alt.on('Webview:Character:OpenSelector', (show: boolean, clientCharacters: Character[], showCharCreatorButton: boolean) => {
+               characters.value = clientCharacters;
+               showCharacter.value = show;
+               canCreateCharacter.value = showCharCreatorButton;
+          });
+     }
+});
 </script>

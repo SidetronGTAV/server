@@ -1,4 +1,4 @@
 export interface INeck {
-    [key: string]: number;
-    NeckWidth: number;
+     [key: string]: number;
+     NeckWidth: number;
 }
