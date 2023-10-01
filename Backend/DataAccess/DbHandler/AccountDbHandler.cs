@@ -24,14 +24,14 @@ public class AccountDbHandler
         return result.Entity.Id;
     }
 
-    public static async Task<bool> FindOtherHardwareIdHashesAndSocialClubIdsAsync(Account account)
+    public static async Task<bool> FindOtherHardwareIdHashesSocialClubIdsAndCloudIdsAsync(Account account)
     {
         try
         {
             await using var db = new DbContext();
             var accounts = await db.Accounts.SingleOrDefaultAsync(a =>
                 (a.HardwareIdHash == account.HardwareIdHash && a.HardwareIdExHash == account.HardwareIdExHash) ||
-                a.SocialClubId == account.SocialClubId);
+                a.SocialClubId == account.SocialClubId || a.CloudId == account.CloudId);
             return true;
         }
         catch (InvalidOperationException)

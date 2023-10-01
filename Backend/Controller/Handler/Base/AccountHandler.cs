@@ -9,15 +9,7 @@ public abstract class AccountHandler
 {
     public static async Task<Account> CreateAccountAsync(MyPlayer player, DiscordUser discordUser)
     {
-        var altDiscordAccount = await AccountDbHandler.GetAccountByDiscordIdAsync(player.DiscordId);
-
-        if (altDiscordAccount != null)
-        {
-            player.Kick(
-                "Dein Discord Account wo du dich gerade eingeloggt hast, ist mit nicht der selbe wie der wo du dich das letzte mal eingeloggt hast! Bitte Wende dich an den Support!");
-            return null;
-        }
-
+        var cloudId = await player.RequestCloudId();
         var account = new Account()
         {
             Id = 0,
@@ -26,7 +18,8 @@ public abstract class AccountHandler
             HardwareIdHash = player.HardwareIdHash,
             HardwareIdExHash = player.HardwareIdExHash,
             SocialClubId = player.SocialClubId,
-            MaxCharacters = 1
+            MaxCharacters = 1,
+            CloudId = cloudId
         };
 
         await AccountDbHandler.SaveAccountAsync(account);

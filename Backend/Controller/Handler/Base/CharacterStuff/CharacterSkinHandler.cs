@@ -17,8 +17,8 @@ public class CharacterSkinHandler
         {
             player.Model = (uint)PedModel.FreemodeMale01;
         }
-        
-        
+
+
         //---------Initialize----------//
         player.SetHeadBlendData(0, 0, 0, 0, 0, 0, 0, 0, 0);
 

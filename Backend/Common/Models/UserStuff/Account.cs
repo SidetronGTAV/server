@@ -15,6 +15,8 @@ public class Account : IdBase
 
     public ulong SocialClubId { get; set; }
 
+    public string CloudId { get; set; }
+
     public SupportLevel SupportLevel { get; set; }
 
     public bool Whitelisted { get; set; }

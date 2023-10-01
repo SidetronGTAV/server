@@ -1,5 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using AltV.Net.Elements.Entities;
+using AltV.Net.Events;
 using AutoMapper;
 using Common.Dto.UserStuff;
 using Common.Models;
@@ -10,7 +12,7 @@ using DataAccess.DbHandler;
 
 namespace Controller.Handler.Base;
 
-public class LoginHandler
+public abstract class LoginHandler
 {
     public static async Task<DiscordUser?> GetDiscordUserAsync(string token)
     {
@@ -33,25 +35,7 @@ public class LoginHandler
         var account = await AccountDbHandler.GetAccountByDiscordIdAsync(discordUser.id) ??
                       await AccountHandler.CreateAccountAsync(player, discordUser);
 
-        if (!account.Whitelisted)
-        {
-            player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
-            return null;
-        }
-
-        if (account.HardwareIdHash != player.HardwareIdHash || account.HardwareIdExHash != player.HardwareIdExHash)
-        {
-            player.Kick("Deine HardwareId ist falsch! Wende dich an den Support!");
-            //TODO: Ban User
-            return null;
-        }
-
-        if (!await AccountDbHandler.FindOtherHardwareIdHashesAndSocialClubIdsAsync(account))
-        {
-            player.Kick("Multiaccount Sperre! Wende dich an den Support!");
-            //TODO: Ban User
-            return null;
-        }
+        if (!await HandleAccountConnectPermissionsAsync(player, account)) return null;
 
         var config = new MapperConfiguration(cfg =>
             cfg.CreateMap<Character, CharacterSmallDto>()
@@ -60,6 +44,33 @@ public class LoginHandler
         var characters = mapper.Map<List<Character>, List<CharacterSmallDto>>(account.Characters);
         SetAccountDbDataToPlayer(player, account, characters);
         return characters;
+    }
+
+    private static async Task<bool> HandleAccountConnectPermissionsAsync(IPlayer player, Account account)
+    {
+        if (!account.Whitelisted)
+        {
+            player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
+        }
+        else if (account.CloudId != await player.RequestCloudId())
+        {
+            player.Kick("Deine Cloud Id ist falsch! Wende dich an den Support!");
+        }
+        else if (account.HardwareIdHash != player.HardwareIdHash || account.HardwareIdExHash != player.HardwareIdExHash)
+        {
+            player.Kick("Deine HardwareId ist falsch! Wende dich an den Support!");
+            //TODO: Ban User
+        }
+        else if (!await AccountDbHandler.FindOtherHardwareIdHashesSocialClubIdsAndCloudIdsAsync(account))
+        {
+            player.Kick("Multiaccount Sperre! Wende dich an den Support!");
+            //TODO: Ban User
+        }
+        else
+        {
+            return true;
+        }
+        return false;
     }
 
     private static void SetAccountDbDataToPlayer(MyPlayer player, Account account, List<CharacterSmallDto> characters)
