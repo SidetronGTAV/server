@@ -1,4 +1,5 @@
-﻿using AltV.Net;
+﻿using System.Threading.Channels;
+using AltV.Net;
 using AltV.Net.Data;
 using AltV.Net.Elements.Entities;
 using AltV.Net.Enums;
@@ -29,7 +30,7 @@ public static class PlayerHandler
         {
             player.Position = GlobalPosition.HospitalSpawnPosition;
         }
-
+        VoiceHandler.RemoveFromAllVoiceChannels(player);
         CharacterDbHandler.SaveCharacterPosition(player.IsInCharacterId, player.Position);
     }
 

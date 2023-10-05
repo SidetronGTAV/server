@@ -1,17 +1,14 @@
 ﻿using System.Text.Json;
-using AltV.Net;
 using AltV.Net.Async;
 using AltV.Net.Elements.Entities;
 using AltV.Net.Enums;
 using Common.Dto.UserStuff;
 using Common.Enums;
 using Common.Models;
-using Common.Models.Base;
 using Common.Models.UserStuff;
 using Common.Models.UserStuff.CharacterSkin;
 using Controller.Utility;
 using DataAccess.DbHandler;
-using Position = AltV.Net.Data.Position;
 
 namespace Controller.Handler.Base.CharacterStuff;
 
@@ -49,6 +46,7 @@ public abstract class CharacterHandler
 
         CharacterSkinHandler.SetCharacterSkin(player, dbCharacter);
         SetCharacterDbDataToPlayer(player, dbCharacter);
+        VoiceHandler.JoinGlobalVoiceChannel(player);
         if (player.IsCharacterUnconscious)
         {
             player.Health = 0;
@@ -99,6 +97,7 @@ public abstract class CharacterHandler
             { Fullname = $"{savedCharacter!.Firstname} {savedCharacter.Lastname}", Id = savedCharacter.Id });
 
         CharacterSkinHandler.SetCharacterSkin(player, savedCharacter);
+        VoiceHandler.JoinGlobalVoiceChannel(player);
         SetCharacterDbDataToPlayer(player, savedCharacter);
     }
 
@@ -138,8 +137,9 @@ public abstract class CharacterHandler
         player.Dimension = DimensionHandler.DefaultDimension;
     }
 
-    private static async Task<IVehicle> CreateVehicleAndSetPlayerAndVehicleInPrivateDimensionAsync(MyPlayer player)
+    private static async Task<IVehicle> CreateVehicleAndSetPlayerAndVehicleInPrivateDimensionAsync(IWorldObject player)
     {
+        if (player == null) throw new ArgumentNullException(nameof(player));
         var privateDimension = DimensionHandler.GetPrivateDimension();
         player.Dimension = privateDimension;
         var vehicle = await AltAsync.CreateVehicle(VehicleModel.Ambulance, GlobalPosition.PlayerDiedSpawnPosition,
@@ -160,6 +160,9 @@ public abstract class CharacterHandler
         player.AtCharacterUnconscious = atCharacterUnconscious;
         character.IsCharacterUnconscious = true;
         character.AtCharacterUnconscious = atCharacterUnconscious;
+        
+        VoiceHandler.MutePlayerInAllChannels(player);
+        
         await CharacterDbHandler.SaveCharacterAsync(character);
     }
 
@@ -171,6 +174,7 @@ public abstract class CharacterHandler
         character.AtCharacterUnconscious = null;
         player.IsCharacterUnconscious = false;
         player.AtCharacterUnconscious = null;
+        VoiceHandler.ChangeVoiceVolume(player, VoiceVolume.LowLevel);
         await CharacterDbHandler.SaveCharacterAsync(character);
     }
 }
