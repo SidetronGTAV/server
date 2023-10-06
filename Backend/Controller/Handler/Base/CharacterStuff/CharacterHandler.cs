@@ -160,9 +160,9 @@ public abstract class CharacterHandler
         player.AtCharacterUnconscious = atCharacterUnconscious;
         character.IsCharacterUnconscious = true;
         character.AtCharacterUnconscious = atCharacterUnconscious;
-        
+
         VoiceHandler.MutePlayerInAllChannels(player);
-        
+
         await CharacterDbHandler.SaveCharacterAsync(character);
     }
 
@@ -174,7 +174,7 @@ public abstract class CharacterHandler
         character.AtCharacterUnconscious = null;
         player.IsCharacterUnconscious = false;
         player.AtCharacterUnconscious = null;
-        VoiceHandler.ChangeVoiceVolume(player, VoiceVolume.LowLevel);
+        VoiceHandler.ChangeVoiceVolume(player, (int)VoiceVolume.LowLevel);
         await CharacterDbHandler.SaveCharacterAsync(character);
     }
 }

@@ -6,6 +6,7 @@ import { Login } from './base/Handling/Login.js';
 import { Character } from './Character/Character.js';
 import { CharCreator } from './Character/Creator.js';
 import { DeadHandler } from './base/Handling/DeadHandler.js';
+import { Voice } from './base/Voice.js';
 
 alt.on('connectionComplete', async () => {
      alt.log('ConnectionComplete');
@@ -16,6 +17,7 @@ alt.on('connectionComplete', async () => {
      new Character();
      new CharCreator();
      new DeadHandler();
+     new Voice();
      await Login.getOAuthToken();
      setDefaultData();
 });

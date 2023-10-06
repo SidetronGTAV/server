@@ -30,6 +30,7 @@ public static class PlayerHandler
         {
             player.Position = GlobalPosition.HospitalSpawnPosition;
         }
+
         VoiceHandler.RemoveFromAllVoiceChannels(player);
         CharacterDbHandler.SaveCharacterPosition(player.IsInCharacterId, player.Position);
     }

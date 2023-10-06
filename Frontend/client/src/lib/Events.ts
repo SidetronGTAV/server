@@ -44,4 +44,8 @@ export default abstract class Events {
      public static Login = {
           LoginUser: 'Server:Login:LoginUser',
      };
+
+     public static Voice = {
+          Toggle: 'Server:Voice:Toggle',
+     };
 }

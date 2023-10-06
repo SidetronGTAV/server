@@ -70,6 +70,7 @@ public abstract class LoginHandler
         {
             return true;
         }
+
         return false;
     }
 
