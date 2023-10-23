@@ -21,6 +21,8 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
 
     public DbSet<CharacterSkin> CharacterSkins { get; set; }
 
+    public DbSet<Log> Logs { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Character>()

@@ -9,7 +9,6 @@ public abstract class AccountHandler
 {
     public static async Task<Account> CreateAccountAsync(MyPlayer player, DiscordUser discordUser)
     {
-        var cloudId = await player.RequestCloudId();
         var account = new Account()
         {
             Id = 0,
@@ -19,7 +18,7 @@ public abstract class AccountHandler
             HardwareIdExHash = player.HardwareIdExHash,
             SocialClubId = player.SocialClubId,
             MaxCharacters = 1,
-            CloudId = cloudId
+            CloudId = player.CloudId
         };
 
         await AccountDbHandler.SaveAccountAsync(account);

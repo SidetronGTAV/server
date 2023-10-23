@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using AltV.Net;
 using AltV.Net.Async;
+using AltV.Net.Shared.Elements.Entities;
 using Common.Models;
 using Common.Models.UserStuff.CharacterSkin;
 using Controller.Handler.Base;

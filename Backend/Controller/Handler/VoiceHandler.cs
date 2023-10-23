@@ -22,7 +22,7 @@ public class VoiceHandler : IScript
 
         Alt.OnClient<MyPlayer, int>("Server:Voice:Toggle", ChangeVoiceVolume);
     }
-    
+
     public static void JoinGlobalVoiceChannel(IPlayer player)
     {
         HighRangeChannel.AddPlayer(player);
@@ -50,9 +50,9 @@ public class VoiceHandler : IScript
         {
             return;
         }
-        
+
         var distance = (VoiceVolume)distanceInt;
-        
+
         switch (distance)
         {
             case VoiceVolume.Mute:

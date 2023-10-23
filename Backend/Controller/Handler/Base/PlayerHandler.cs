@@ -5,6 +5,7 @@ using AltV.Net.Elements.Entities;
 using AltV.Net.Enums;
 using AltV.Net.Events;
 using Common.Enums;
+using Common.Enums.Logging;
 using Common.Models;
 using Controller.Handler.Base.CharacterStuff;
 using Controller.Utility;
@@ -22,6 +23,7 @@ public static class PlayerHandler
         player.Model = (uint)PedModel.FreemodeMale01;
         player.Frozen = true;
         player.SetDateTime(DateTime.Now);
+        LogHandler.Log(LogType.Information, LogSystemType.PlayerConnect, $"Player {player.SocialClubName} connected.");
     }
 
     public static void HandlePlayerDisconnect(MyPlayer player)
@@ -33,6 +35,8 @@ public static class PlayerHandler
 
         VoiceHandler.RemoveFromAllVoiceChannels(player);
         CharacterDbHandler.SaveCharacterPosition(player.IsInCharacterId, player.Position);
+        LogHandler.Log(LogType.Information, LogSystemType.PlayerDisconnect,
+            $"Player {player.SocialClubName} disconnected.");
     }
 
     public static async Task HandlePlayerDead(MyPlayer player, IEntity killer, uint weapon)

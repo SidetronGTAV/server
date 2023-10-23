@@ -52,7 +52,7 @@ public abstract class LoginHandler
         {
             player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
         }
-        else if (account.CloudId != await player.RequestCloudId())
+        else if (account.CloudId != player.CloudId)
         {
             player.Kick("Deine Cloud Id ist falsch! Wende dich an den Support!");
         }

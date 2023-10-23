@@ -4,6 +4,7 @@ using AltV.Net.Elements.Entities;
 using AltV.Net.Enums;
 using Common.Dto.UserStuff;
 using Common.Enums;
+using Common.Enums.Logging;
 using Common.Models;
 using Common.Models.UserStuff;
 using Common.Models.UserStuff.CharacterSkin;
@@ -119,6 +120,8 @@ public abstract class CharacterHandler
         player.Dimension = DimensionHandler.DefaultDimension;
         player.Spawn(player.Position);
         player.ClearBloodDamage();
+        await LogHandler.LogAsync(LogType.Information, LogSystemType.CharacterSystem,
+            $"Character  was revived with the Id {player.IsInCharacterId} .", player.AccountId, player.IsInCharacterId);
         player.Emit("Client:DeadHandler:Revived");
     }
 
@@ -131,7 +134,8 @@ public abstract class CharacterHandler
         player.Spawn(GlobalPosition.PlayerDiedSpawnPosition);
         await Task.Delay(30000);
         vehicle.Destroy();
-
+        await LogHandler.LogAsync(LogType.Warning, LogSystemType.CharacterSystem,
+            $"Character with Id {player.IsInCharacterId} died.", player.AccountId, player.IsInCharacterId);
         player.Position = GlobalPosition.HospitalSpawnPosition;
         DimensionHandler.RemovePrivateDimension(player.Dimension);
         player.Dimension = DimensionHandler.DefaultDimension;
@@ -155,6 +159,9 @@ public abstract class CharacterHandler
 
         //TODO: to 15 Minutes
         var atCharacterUnconscious = DateTime.UtcNow.AddSeconds(15);
+        await LogHandler.LogAsync(LogType.Information, LogSystemType.CharacterSystem,
+            $"Character {character.Firstname} {character.Lastname} with Id {character.Id} unconscious.",
+            player.AccountId, player.IsInCharacterId);
 
         player.IsCharacterUnconscious = true;
         player.AtCharacterUnconscious = atCharacterUnconscious;
@@ -176,5 +183,8 @@ public abstract class CharacterHandler
         player.AtCharacterUnconscious = null;
         VoiceHandler.ChangeVoiceVolume(player, (int)VoiceVolume.LowLevel);
         await CharacterDbHandler.SaveCharacterAsync(character);
+        await LogHandler.LogAsync(LogType.Information, LogSystemType.CharacterSystem,
+            $"Character {character.Firstname} {character.Lastname} was revived with the Id {character.Id} .",
+            player.AccountId, player.IsInCharacterId);
     }
 }
