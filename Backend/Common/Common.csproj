@@ -7,8 +7,8 @@
 
 
     <ItemGroup>
-        <PackageReference Include="AltV.Net" Version="15.0.196-dev" />
-        <PackageReference Include="AltV.Net.Async" Version="15.0.196-dev" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.10"/>
+        <PackageReference Include="AltV.Net" Version="15.0.4" />
+        <PackageReference Include="AltV.Net.Async" Version="15.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.12" />
     </ItemGroup>
 </Project>
