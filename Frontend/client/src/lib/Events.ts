@@ -48,4 +48,10 @@ export default abstract class Events {
      public static Voice = {
           Toggle: 'Server:Voice:Toggle',
      };
+
+     public static Hud = {
+          UpdateWebview: 'Webview:HUD:Update',
+          OpenHud: 'Webview:HUD:Show',
+          CloseHud: 'Webview:HUD:Hide',
+     };
 }

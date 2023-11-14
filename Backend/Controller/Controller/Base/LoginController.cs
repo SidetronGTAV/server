@@ -1,13 +1,8 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using AltV.Net;
+﻿using AltV.Net;
 using AltV.Net.Async;
-using AltV.Net.Elements.Entities;
-using Common.Dto.UserStuff;
+using Common.Enums;
+using Common.Enums.Logging;
 using Common.Models;
-using Common.Models.Discord;
 using Controller.Handler.Base;
 using Controller.Handler.Base.CharacterStuff;
 
@@ -22,12 +17,6 @@ public class LoginController : IScript
 
     private static async Task LoginUserAsync(MyPlayer player, string token)
     {
-        if (player.IsLoggin)
-        {
-            //TODO: Kick User
-            return;
-        }
-
         var discordUser = await LoginHandler.GetDiscordUserAsync(token);
         if (discordUser == null)
         {
@@ -35,12 +24,20 @@ public class LoginController : IScript
             return;
         }
 
-        var characters = await LoginHandler.HandleUserLoginAndLoadUserCharactersAsync(player, discordUser);
+        var findExistingPlayer = (MyPlayer?)Alt.GetAllPlayers().FirstOrDefault(p => ((MyPlayer)p).AccountDiscordId == discordUser.id);
 
-        if (characters == null)
+        if (findExistingPlayer != null)
         {
+            player.Kick("Dein Discord Account ist bereits eingeloggt!");
+            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem,
+                $"Player {player.Name} tried to login with an already logged in Discord Account!",
+                findExistingPlayer.AccountId);
             return;
         }
+
+        var characters = await LoginHandler.HandleUserLoginAndLoadUserCharactersAsync(player, discordUser);
+
+        if (characters == null) return;
 
         if (characters.Count == 0)
         {

@@ -52,6 +52,9 @@ public abstract class CharacterHandler
         {
             player.Health = 0;
         }
+        
+        //TODO: Implement Hunger and Thirst System
+        player.Emit("Client:Character:SelectedCharacter");
     }
 
     public static async Task ChangeCharacterSkinAsync(MyPlayer player, int id)
@@ -84,7 +87,7 @@ public abstract class CharacterHandler
             Lastname = lastname,
             Birthday = birthday,
             CharacterSkinId = savedCharacterSkin.Id,
-            AccountId = player.AccountId,
+            AccountId = (int)player.AccountId!,
             Position = new Common.Models.Base.Position
             {
                 X = GlobalPosition.NewPlayerSpawnPosition.X, Y = GlobalPosition.NewPlayerSpawnPosition.Y,

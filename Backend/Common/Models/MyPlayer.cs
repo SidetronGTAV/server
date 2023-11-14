@@ -10,7 +10,7 @@ namespace Common.Models;
 
 public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
 {
-    public int AccountId { get; set; }
+    public int? AccountId { get; set; }
 
     public long AccountDiscordId { get; set; }
 

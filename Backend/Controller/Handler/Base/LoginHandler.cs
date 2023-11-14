@@ -4,6 +4,8 @@ using AltV.Net.Elements.Entities;
 using AltV.Net.Events;
 using AutoMapper;
 using Common.Dto.UserStuff;
+using Common.Enums;
+using Common.Enums.Logging;
 using Common.Models;
 using Common.Models.Discord;
 using Common.Models.UserStuff;
@@ -51,10 +53,13 @@ public abstract class LoginHandler
         if (!account.Whitelisted)
         {
             player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
+            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but is not whitelisted!", account.Id);
         }
         else if (account.CloudId != player.CloudId)
         {
             player.Kick("Deine Cloud Id ist falsch! Wende dich an den Support!");
+            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but cloud id is wrong!", account.Id);
+            
         }
         else if (account.HardwareIdHash != player.HardwareIdHash || account.HardwareIdExHash != player.HardwareIdExHash)
         {

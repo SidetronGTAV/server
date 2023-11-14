@@ -26,4 +26,5 @@ public class Account : IdBase
     public List<Character> Characters { get; set; }
 
     public int MaxCharacters { get; set; }
+    
 }

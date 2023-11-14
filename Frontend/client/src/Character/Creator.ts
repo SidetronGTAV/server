@@ -1,4 +1,4 @@
-import { ICharCreator } from '../Interfaces/ICharCreator.js';
+import { ICharCreator } from '../Interfaces/Charcreator/ICharCreator';
 import * as native from 'natives';
 import * as alt from 'alt-client';
 import { Webview } from '../base/Webview.js';
