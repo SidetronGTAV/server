@@ -13,8 +13,19 @@ public class LoginController : IScript
     public LoginController()
     {
         AltAsync.OnClient<MyPlayer, string, Task>("Server:Login:LoginUser", LoginUserAsync);
+        AltAsync.OnClient<MyPlayer, Task>("Server:Login:FailedToGetToken", FailedToLoginUserAsync);
     }
 
+    private static async Task FailedToLoginUserAsync(MyPlayer player)
+    {
+        if (player.AccountId != null || player.IsLoggin) return;
+        
+        player.Kick("Um auf den Server zu joinen, muss dein Discord im Hintergrund geöffnet sein!");
+        await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem,
+            $"Player {player.Name} failed to login with Discord Account!",
+            player.AccountId);
+    }
+    
     private static async Task LoginUserAsync(MyPlayer player, string token)
     {
         var discordUser = await LoginHandler.GetDiscordUserAsync(token);

@@ -4,6 +4,7 @@ import { Player } from '../Utilities/Player.js';
 import { Camera } from '../Utilities/Camera.js';
 import { Webview } from '../base/Webview.js';
 import Events from '../lib/Events.js';
+import { Hud } from '../base/Handling/Hud.js';
 
 export class Character {
      private static _camera: number;
@@ -13,6 +14,7 @@ export class Character {
           Webview.Webview.on(Events.CharSelector.selectCharacter, Character.SelectCharacter);
           Webview.Webview.on(Events.CharSelector.changeCharacter, Character.ChangeCharacter);
           Webview.Webview.on(Events.CharSelector.openCharacterCreator, Character.OpenCharacterCreator);
+          alt.onServer(Events.CharSelector.SelectedCharacter, Character.HandleCharacterSelect);
      }
 
      private static StartCharacter(characters: string, showCharacterCreator: boolean): void {
@@ -24,6 +26,12 @@ export class Character {
           Webview.CloseUi(Events.CharSelector.WebviewOpenCharSelector);
           Character.SetStopNativeProperties();
           alt.emitServer(Events.CharSelector.ServerSelectCharacter, id);
+     }
+
+     private static HandleCharacterSelect(hunger: number, thirst: number): void {
+          Hud.ShowHud();
+          Hud.changeHunger(hunger);
+          Hud.changeThirst(thirst);
      }
 
      private static ChangeCharacter(id: number): void {

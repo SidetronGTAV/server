@@ -28,14 +28,14 @@ public class ShitSaver
         {
             foreach (var player in Alt.GetAllPlayers())
             {
-                if (player.Exists) _allFuckingPlayers.Enqueue(player);
+                if (player is { Exists: true }) _allFuckingPlayers.Enqueue(player);
             }
         }
 
         for (var i = 0; i < PlayersPerTick; i++)
         {
             if (!_allFuckingPlayers.TryDequeue(out var player)) return;
-            if (!player.Exists) continue;
+            if (player is { Exists: false }) continue;
             var myPlayer = (MyPlayer)player;
             if (myPlayer.IsInCharacterId == 0) continue;
             if (myPlayer.AtCharacterUnconscious < DateTime.UtcNow)

@@ -32,6 +32,7 @@ export default abstract class Events {
           WebviewOpenCharSelector: 'Webview:Character:OpenSelector',
           ServerSelectCharacter: 'Server:Character:SelectCharacter',
           ServerChangeCharacterSkin: 'Server:Character:ChangeCharacterSkin',
+          SelectedCharacter: 'Client:Character:SelectedCharacter',
      };
 
      public static DeadHandler = {
@@ -43,10 +44,12 @@ export default abstract class Events {
 
      public static Login = {
           LoginUser: 'Server:Login:LoginUser',
+          FailedToGetToken: 'Server:Login:FailedToGetToken',
      };
 
      public static Voice = {
           Toggle: 'Server:Voice:Toggle',
+          UpdateMicrophoneLevel: 'Server:Voice:UpdateMicrophoneLevel',
      };
 
      public static Hud = {

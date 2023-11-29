@@ -61,7 +61,7 @@ public class ConsoleController : IScript
         }
 
         var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
-        if (targetPlayer.Exists)
+        if (targetPlayer != null && targetPlayer.IsInCharacterId != 0)
         {
             targetPlayer.Position = player.Position;
         }
@@ -76,7 +76,7 @@ public class ConsoleController : IScript
         }
 
         var targetPlayer = (MyPlayer)Alt.GetPlayerById(id);
-        if (targetPlayer.Exists)
+        if (targetPlayer != null && targetPlayer.IsInCharacterId != 0)
         {
             player.Position = targetPlayer.Position;
         }

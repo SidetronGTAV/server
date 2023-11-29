@@ -118,6 +118,7 @@ public abstract class CharacterHandler
 
     public static async Task ReviveCharacterAsync(MyPlayer player)
     {
+        if (player.IsCharacterDead) return;
         await SetCharacterAliveAsync(player);
         DimensionHandler.RemovePrivateDimension(player.Dimension);
         player.Dimension = DimensionHandler.DefaultDimension;
@@ -137,6 +138,7 @@ public abstract class CharacterHandler
         player.Spawn(GlobalPosition.PlayerDiedSpawnPosition);
         await Task.Delay(30000);
         vehicle.Destroy();
+        player.ClearBloodDamage();
         await LogHandler.LogAsync(LogType.Warning, LogSystemType.CharacterSystem,
             $"Character with Id {player.IsInCharacterId} died.", player.AccountId, player.IsInCharacterId);
         player.Position = GlobalPosition.HospitalSpawnPosition;

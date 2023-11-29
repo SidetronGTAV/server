@@ -41,7 +41,7 @@ public class PlayerController : IScript
 
     private static bool OnClientRequestObject(IPlayer target, uint model, Position position)
     {
-        return model == (uint)WeaponModel.Parachute && target.HasWeapon(model);
+        return model == (uint)WeaponModel.Parachute;
     }
 
     private static bool OnClientDeleteObject(IPlayer target)

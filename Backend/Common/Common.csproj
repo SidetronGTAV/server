@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>12</LangVersion>
     </PropertyGroup>
 
 
     <ItemGroup>
-        <PackageReference Include="AltV.Net" Version="15.0.5" />
-        <PackageReference Include="AltV.Net.Async" Version="15.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.13" />
+        <PackageReference Include="AltV.Net" Version="15.0.6" />
+        <PackageReference Include="AltV.Net.Async" Version="15.0.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.0" />
     </ItemGroup>
 </Project>

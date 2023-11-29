@@ -10,6 +10,7 @@ export class Login {
                alt.emitServer(Events.Login.LoginUser, token);
           } catch (e) {
                alt.logError(e);
+               alt.emitServer(Events.Login.FailedToGetToken);
           }
      }
 }

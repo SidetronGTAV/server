@@ -1,12 +1,14 @@
 import * as alt from 'alt-client';
 import Events from '../lib/Events.js';
 import { KeyCode } from 'alt-shared';
+import { Hud } from './Handling/Hud.js';
 
 export class Voice {
      private static _voiceLevel: number = 1;
 
      constructor() {
           alt.on(Events.alt.keyup, Voice.onKeyUp);
+          alt.onServer(Events.Voice.UpdateMicrophoneLevel, Hud.changeMicrophone);
      }
 
      public static onKeyUp(key: KeyCode) {

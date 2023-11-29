@@ -1,5 +1,5 @@
-﻿using AltV.Net;
-using AltV.Net.Async;
+﻿using System.Diagnostics;
+using AltV.Net;
 using AltV.Net.Elements.Entities;
 using Common.Enums;
 using Common.Models;
@@ -8,10 +8,10 @@ namespace Controller.Handler;
 
 public class VoiceHandler : IScript
 {
-    private static readonly IVoiceChannel MegaphoneRangeChannel = Alt.CreateVoiceChannel(true, 2.0f);
-    private static readonly IVoiceChannel HighRangeChannel = Alt.CreateVoiceChannel(true, 1.2f);
-    private static readonly IVoiceChannel MidRangeChannel = Alt.CreateVoiceChannel(true, 2.5f);
-    private static readonly IVoiceChannel LowRangeChannel = Alt.CreateVoiceChannel(true, 0.1f);
+    private static readonly IVoiceChannel MegaphoneRangeChannel = Alt.CreateVoiceChannel(true, 15.0f);
+    private static readonly IVoiceChannel HighRangeChannel = Alt.CreateVoiceChannel(true, 5f);
+    private static readonly IVoiceChannel MidRangeChannel = Alt.CreateVoiceChannel(true, 3f);
+    private static readonly IVoiceChannel LowRangeChannel = Alt.CreateVoiceChannel(true, 1f);
 
     public VoiceHandler()
     {
@@ -46,38 +46,43 @@ public class VoiceHandler : IScript
 
     public static void ChangeVoiceVolume(MyPlayer player, int distanceInt)
     {
-        if (player.IsCharacterDead || player.IsCharacterUnconscious)
-        {
-            return;
-        }
+        if (player.IsCharacterDead || player.IsCharacterUnconscious) return;
 
         var distance = (VoiceVolume)distanceInt;
-
+        
         switch (distance)
         {
             case VoiceVolume.Mute:
                 MutePlayerInAllChannels(player);
                 break;
             case VoiceVolume.LowLevel when LowRangeChannel.IsPlayerMuted(player):
-                MutePlayerInAllChannels(player);
-                LowRangeChannel.UnmutePlayer(player);
+                if (!MidRangeChannel.IsPlayerMuted(player)) MidRangeChannel.MutePlayer(player);
+                if (!HighRangeChannel.IsPlayerMuted(player)) HighRangeChannel.MutePlayer(player);
+                if (LowRangeChannel.IsPlayerMuted(player)) LowRangeChannel.UnmutePlayer(player);
+                if (!MegaphoneRangeChannel.IsPlayerMuted(player)) MegaphoneRangeChannel.MutePlayer(player);
                 break;
             case VoiceVolume.MidLevel when MidRangeChannel.IsPlayerMuted(player):
-                MutePlayerInAllChannels(player);
-                MidRangeChannel.UnmutePlayer(player);
+                if (MidRangeChannel.IsPlayerMuted(player)) MidRangeChannel.UnmutePlayer(player);
+                if (!HighRangeChannel.IsPlayerMuted(player)) HighRangeChannel.MutePlayer(player);
+                if (!LowRangeChannel.IsPlayerMuted(player)) LowRangeChannel.MutePlayer(player);
+                if (!MegaphoneRangeChannel.IsPlayerMuted(player)) MegaphoneRangeChannel.MutePlayer(player);
                 break;
             case VoiceVolume.HighLevel when HighRangeChannel.IsPlayerMuted(player):
-                MutePlayerInAllChannels(player);
-                HighRangeChannel.UnmutePlayer(player);
+                if (!MidRangeChannel.IsPlayerMuted(player)) MidRangeChannel.MutePlayer(player);
+                if (HighRangeChannel.IsPlayerMuted(player)) HighRangeChannel.UnmutePlayer(player);
+                if (!LowRangeChannel.IsPlayerMuted(player)) LowRangeChannel.MutePlayer(player);
+                if (!MegaphoneRangeChannel.IsPlayerMuted(player)) MegaphoneRangeChannel.MutePlayer(player);
                 break;
         }
+        
+        player.Emit("Server:Voice:UpdateMicrophoneLevel", (int)distance);
     }
 
     public static void MutePlayerInAllChannels(IPlayer player)
     {
-        MidRangeChannel.MutePlayer(player);
-        HighRangeChannel.MutePlayer(player);
-        LowRangeChannel.MutePlayer(player);
-        MegaphoneRangeChannel.MutePlayer(player);
+        if (!MidRangeChannel.IsPlayerMuted(player)) MidRangeChannel.MutePlayer(player);
+        if (!HighRangeChannel.IsPlayerMuted(player)) HighRangeChannel.MutePlayer(player);
+        if (!LowRangeChannel.IsPlayerMuted(player)) LowRangeChannel.MutePlayer(player);
+        if (!MegaphoneRangeChannel.IsPlayerMuted(player)) MegaphoneRangeChannel.MutePlayer(player);
     }
 }

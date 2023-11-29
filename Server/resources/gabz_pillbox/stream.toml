@@ -4,4 +4,5 @@ files = [
 
 [meta]
 "stream/gabztimecyclemods.xml" = "TIMECYCLEMOD_FILE"
+'stream/interiorproxies.meta' = 'INTERIOR_PROXY_ORDER_FILE'
 
