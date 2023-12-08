@@ -21,12 +21,16 @@
                     </div>
                </transition>
           </div>
+          <div>
+               <HudSpeedometer />
+          </div>
      </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
+import HudSpeedometer from '../components/HUD/Speedometer.vue';
 
-const showComponent = ref(false);
+const showComponent = ref(true);
 const config = ref({ hunger: 0, thirst: 0, microphone: 1 });
 const showHunger = ref(false);
 const showThirst = ref(false);
