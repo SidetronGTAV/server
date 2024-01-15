@@ -8,17 +8,17 @@ import {
      faBullhorn,
      faBurger,
      faCakeCandles,
-     faDna,
+     faDna, faGasPump, faGauge,
      faGlassWater,
      faMarsStroke,
      faMicrophone,
      faMicrophoneSlash,
      faMinus,
      faPlay,
-     faPlus,
+     faPlus, faRoad,
      faUser,
      faVenus,
-     faVenusMars,
+     faVenusMars
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -36,6 +36,9 @@ library.add(
      faBullhorn,
      faBurger,
      faGlassWater,
+     faGauge,
+     faGasPump,
+     faRoad,
 );
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app');
