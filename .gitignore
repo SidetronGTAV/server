@@ -1,7 +1,6 @@
 node_modules
 server/*
 !resource.toml
-!server.toml
 *.suo
 *.user
 bin
@@ -31,4 +30,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+server.toml
 

@@ -1,5 +1,5 @@
 <template>
-     <div class="flex overflow-hidden">
+     <div class="flex !overflow-hidden">
           <CharacterSelector />
           <CharacterCreator />
           <DeadScreen />

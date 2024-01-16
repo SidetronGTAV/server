@@ -9,7 +9,11 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <OutputPath>./bin/debug</OutputPath>
+        <OutputPath>./bin/net8.0/debug</OutputPath>
+        <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <OutputPath>./bin/net8.0/relase</OutputPath>
         <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
 
@@ -33,6 +37,7 @@
     <Target Name="CopyFiles" AfterTargets="Publish">
         <PropertyGroup>
             <CopiedFiles>$(OutputPath)\publish\*.*</CopiedFiles>
+            <TargetLocation Condition=" '$(Configuration)' == 'Debug' ">../../Server/resources/server/bin</TargetLocation>
             <TargetLocation Condition=" '$(Configuration)' == 'Release' ">../../Server/resources/server/bin</TargetLocation>
         </PropertyGroup>
         <Copy Condition=" '$(TargetLocation)' != '' " SourceFiles="@(AllOutputFiles)" DestinationFolder="$(TargetLocation)" SkipUnchangedFiles="false"/>

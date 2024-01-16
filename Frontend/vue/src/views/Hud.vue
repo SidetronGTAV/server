@@ -1,6 +1,6 @@
 <template>
      <div v-if="showComponent">
-          <div class="absolute right-0 p-5">
+          <div class="absolute right-0 p-5 overflow-hidden">
                <div class="w-12 h-12 rounded-lg flex justify-center items-center bg-neutral-900">
                     <font-awesome-icon icon="fa-solid fa-bullhorn" class="text-2xl text-white" v-if="config.microphone > 3" />
                     <font-awesome-icon

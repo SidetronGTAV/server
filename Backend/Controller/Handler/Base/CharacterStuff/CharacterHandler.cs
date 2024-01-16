@@ -186,7 +186,6 @@ public abstract class CharacterHandler
         character.AtCharacterUnconscious = null;
         player.IsCharacterUnconscious = false;
         player.AtCharacterUnconscious = null;
-        VoiceHandler.ChangeVoiceVolume(player, (int)VoiceVolume.LowLevel);
         await CharacterDbHandler.SaveCharacterAsync(character);
         await LogHandler.LogAsync(LogType.Information, LogSystemType.CharacterSystem,
             $"Character {character.Firstname} {character.Lastname} was revived with the Id {character.Id} .",

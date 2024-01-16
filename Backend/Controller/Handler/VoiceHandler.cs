@@ -8,17 +8,17 @@ namespace Controller.Handler;
 
 public class VoiceHandler : IScript
 {
-    private static readonly IVoiceChannel MegaphoneRangeChannel = Alt.CreateVoiceChannel(true, 15.0f);
-    private static readonly IVoiceChannel HighRangeChannel = Alt.CreateVoiceChannel(true, 5f);
-    private static readonly IVoiceChannel MidRangeChannel = Alt.CreateVoiceChannel(true, 3f);
-    private static readonly IVoiceChannel LowRangeChannel = Alt.CreateVoiceChannel(true, 1f);
+    private static readonly IVoiceChannel MegaphoneRangeChannel = Alt.CreateVoiceChannel(true, 60f);
+    private static readonly IVoiceChannel HighRangeChannel = Alt.CreateVoiceChannel(true, 25f);
+    private static readonly IVoiceChannel MidRangeChannel = Alt.CreateVoiceChannel(true, 10f);
+    private static readonly IVoiceChannel LowRangeChannel = Alt.CreateVoiceChannel(true, 2.6f);
 
     public VoiceHandler()
     {
-        HighRangeChannel.Priority = 2;
-        MidRangeChannel.Priority = 1;
-        LowRangeChannel.Priority = 0;
-        MegaphoneRangeChannel.Priority = 3;
+        HighRangeChannel.Priority = 1;
+        MidRangeChannel.Priority = 2;
+        LowRangeChannel.Priority = 3;
+        MegaphoneRangeChannel.Priority = 0;
 
         Alt.OnClient<MyPlayer, int>("Server:Voice:Toggle", ChangeVoiceVolume);
     }
@@ -30,7 +30,7 @@ public class VoiceHandler : IScript
         LowRangeChannel.AddPlayer(player);
         MegaphoneRangeChannel.AddPlayer(player);
 
-        LowRangeChannel.UnmutePlayer(player);
+        LowRangeChannel.MutePlayer(player);
         MidRangeChannel.MutePlayer(player);
         HighRangeChannel.MutePlayer(player);
         MegaphoneRangeChannel.MutePlayer(player);

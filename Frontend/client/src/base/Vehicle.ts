@@ -3,8 +3,8 @@ import * as native from 'natives';
 import { Webview } from './Webview.js';
 
 export default class Vehicle {
-     private static interval : number | null = null;
-     private static distance : number = 0;
+     private static interval: number | null = null;
+     private static distance: number = 0;
 
      constructor() {
           alt.on('enteredVehicle', Vehicle.enteredVehicle);
@@ -19,8 +19,10 @@ export default class Vehicle {
 
      private static leftVehicle(): void {
           Webview.Webview.emit('Webview:Speedometer:Hide');
-          alt.clearInterval(Vehicle.interval);
-          Vehicle.interval = null;
+          if (Vehicle.interval !== null) {
+               alt.clearInterval(Vehicle.interval);
+               Vehicle.interval = null;
+          }
      }
 
      private static startInterval(): void {
