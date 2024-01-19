@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@altv/types-client": "^2.9.9",
-    "@altv/types-natives": "^1.5.4",
-    "@altv/types-shared": "^1.6.5",
-    "@altv/types-webview": "^1.0.7"
+    "@altv/types-client": "^16.2.0",
+    "@altv/types-natives": "^16.2.0",
+    "@altv/types-shared": "^16.2.0",
+    "@altv/types-webview": "^16.2.0"
   },
   "dependencies": {
     "prettier": "^3.0.3",

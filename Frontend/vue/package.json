@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@altv/types-webview": "^1.0.6",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
@@ -19,6 +18,8 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@altv/types-shared": "^16.2.0",
+    "@altv/types-webview": "^16.2.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.15",
     "daisyui": "^3.6.4",

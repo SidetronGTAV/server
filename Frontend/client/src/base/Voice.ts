@@ -46,7 +46,7 @@ export class Voice {
 
           Voice.destroyColshape();
           const localPlayer = alt.Player.local.pos;
-          Voice._marker = new alt.Marker(alt.MarkerType.MarkerHalo, new alt.Vector3(localPlayer.x, localPlayer.y, localPlayer.z - 0.98), Voice.markerColor,false);
+          Voice._marker = new alt.Marker(alt.MarkerType.MarkerHalo, new alt.Vector3(localPlayer.x, localPlayer.y, localPlayer.z - 0.97), Voice.markerColor,false);
           Voice._marker.scale = new alt.Vector3(radius);
           Voice._marker.dimension = alt.Player.local.dimension;
           Voice._marker.visible = true;
