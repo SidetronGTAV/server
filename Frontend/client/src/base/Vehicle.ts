@@ -9,12 +9,18 @@ export default class Vehicle {
      constructor() {
           alt.on('enteredVehicle', Vehicle.enteredVehicle);
           alt.on('leftVehicle', Vehicle.leftVehicle);
+          alt.on('changedVehicleSeat', Vehicle.changeVehicleSeat);
      }
 
      private static enteredVehicle(vehicle: alt.Vehicle, seat: number): void {
           if (seat !== 1) return;
           Webview.Webview.emit('Webview:Speedometer:Show');
           Vehicle.startInterval();
+     }
+
+     private static changeVehicleSeat(vehicle: alt.Vehicle, oldSeat: number, seat: number) {
+          if (seat !== 1) Vehicle.leftVehicle();
+          else Vehicle.enteredVehicle(vehicle, seat);
      }
 
      private static leftVehicle(): void {
