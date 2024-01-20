@@ -93,8 +93,11 @@ function setDefaultData() {
      alt.setConfigFlag(alt.ConfigFlag.DisableVehicleEngineShutdownOnLeave, true);
      native.setAudioFlag('DisableFlightMusic', true);
      alt.setInterval(() => {
-          native.setPedConfigFlag(alt.Player.local.scriptID, 184, true);
-          //native.setPedConfigFlag(alt.Player.local.scriptID, 429, true);
+          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToDriversSeat, true);
+          //native.setPedConfigFlag(alt.Player.local.scriptID, alt.PedConfigFlag.DisableStartingVehicleEngine, true);
+          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.AllowAutoShuffleToDriversSeat, false);
+          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToTurretSeat, true);
+          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.DontShuffleInVehicleToMakeRoom, true);
           native.invalidateCinematicVehicleIdleMode();
      }, 25000);
 }

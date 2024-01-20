@@ -26,11 +26,13 @@ export class Voice {
                case KeyCode[',']:
                     Voice._voiceLevel = 0;
                     alt.emitServer(Events.Voice.Toggle, Voice._voiceLevel);
+                    Voice.destroyColshape();
                     break;
           }
      }
 
      private static seeColshape() {
+          if (Voice._voiceLevel === 0) return;
           let radius: number;
           switch (Voice._voiceLevel) {
                case 1:

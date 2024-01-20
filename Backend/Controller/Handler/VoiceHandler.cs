@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using AltV.Net;
+﻿using AltV.Net;
 using AltV.Net.Elements.Entities;
 using Common.Enums;
 using Common.Models;
