@@ -33,4 +33,9 @@ internal class Start : AsyncResource
     {
         return new MyPlayerFactory();
     }
+    
+    public override IEntityFactory<IVehicle> GetVehicleFactory()
+    {
+        return new MyVehicleFactory();
+    }
 }
