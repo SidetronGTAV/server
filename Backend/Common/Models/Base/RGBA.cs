@@ -1,7 +1,9 @@
 ﻿using AltV.Net.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Common.Models.Base;
 
+[Owned]
 public class RGBA
 {
     public byte R { get; set; }
