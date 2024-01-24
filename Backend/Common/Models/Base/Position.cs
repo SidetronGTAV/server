@@ -1,4 +1,6 @@
 ﻿using System.Numerics;
+using AltV.Net;
+using AltV.Net.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Common.Models.Base;
@@ -13,5 +15,8 @@ public class Position
     public static implicit operator Vector3(Position position) => new(position.X, position.Y, position.Z);
 
     public static implicit operator AltV.Net.Data.Position(Position position) =>
+        new(position.X, position.Y, position.Z);
+    
+    public static implicit operator Rotation(Position position) =>
         new(position.X, position.Y, position.Z);
 }
