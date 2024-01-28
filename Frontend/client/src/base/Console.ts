@@ -27,6 +27,10 @@ export class Console {
           alt.log('Position: ' + alt.Player.local.pos);
      }
 
+     protected static startengine(): void {
+          alt.emitServer('Server:Console:StartEngine');
+     }
+
      protected static id(): void {
           alt.emitServer('Server:Console:PlayerID');
      }

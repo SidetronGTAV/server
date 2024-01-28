@@ -24,6 +24,18 @@ public class ConsoleController : IScript
             player.Rotation);
     }
 
+    [ClientEvent("Server:Console:StartEngine")]
+    public static void OnStartEngine(MyPlayer player)
+    {
+        if (player.SupportLevel < SupportLevel.Supporter)
+        {
+            return;
+        }
+
+        if (player.Vehicle == null) return;
+        player.Vehicle.EngineOn = true;
+    }
+    
     [ClientEvent("Server:Console:DeleteVehicle")]
     public static void OnDeleteVehicle(MyPlayer player, int radius)
     {

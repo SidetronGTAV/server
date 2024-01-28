@@ -20,8 +20,8 @@ alt.on('connectionComplete', async () => {
      new CharCreator();
      new DeadHandler();
      new Voice();
-     await Login.getOAuthToken();
      setDefaultData();
+     await Login.getOAuthToken();
 });
 
 function loadIpls(): void {
@@ -94,7 +94,7 @@ function setDefaultData() {
      native.setAudioFlag('DisableFlightMusic', true);
      alt.setInterval(() => {
           native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToDriversSeat, true);
-          //native.setPedConfigFlag(alt.Player.local.scriptID, alt.PedConfigFlag.DisableStartingVehicleEngine, true);
+          native.setPedConfigFlag(alt.Player.local.scriptID, alt.PedConfigFlag.DisableStartingVehicleEngine, true);
           native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.AllowAutoShuffleToDriversSeat, false);
           native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToTurretSeat, true);
           native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.DontShuffleInVehicleToMakeRoom, true);

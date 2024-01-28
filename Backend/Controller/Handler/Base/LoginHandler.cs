@@ -55,12 +55,13 @@ public abstract class LoginHandler
             player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
             await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but is not whitelisted!", account.Id);
         }
-        else if (account.CloudId != player.CloudId)
+        //TODO: Einkommentieren zu Release
+        /*else if (account.CloudId != player.CloudId)
         {
             player.Kick("Deine Cloud Id ist falsch! Wende dich an den Support!");
             await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but cloud id is wrong!", account.Id);
             
-        }
+        }*/
         else if (account.HardwareIdHash != player.HardwareIdHash || account.HardwareIdExHash != player.HardwareIdExHash)
         {
             player.Kick("Deine HardwareId ist falsch! Wende dich an den Support!");
