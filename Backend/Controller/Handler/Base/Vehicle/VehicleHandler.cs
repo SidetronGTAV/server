@@ -59,6 +59,20 @@ public class VehicleHandler
             vehicle.SetMod(i, (byte)mod);
             i++;
         }
-        
+    }
+
+    public static void OnVehicleDamage(IVehicle target, uint bodyHealthDamage)
+    {
+        int damage = bodyHealthDamage switch
+        {
+            <= 25 => (int)bodyHealthDamage,
+            <= 40 => (int)bodyHealthDamage * 4,
+            >= 40 => (int)(bodyHealthDamage * 13.7)
+        };
+
+        if (target.EngineHealth - damage <= 0) target.EngineHealth = 0;
+        else target.EngineHealth -= damage;
+        if (damage >= 1200) target.EngineHealth = -300;
+        if (target.EngineHealth <= 50) target.EngineOn = false;
     }
 }
