@@ -152,7 +152,6 @@ watch(
 );
 
 onMounted(() => {
-     console.log('CharCreator.vue mounted');
      if ('alt' in window) {
           alt.on('Webview:CharCreator:handle', (state: boolean) => {
                showCharCreator.value = state;
