@@ -103,6 +103,7 @@ public abstract class CharacterHandler
         CharacterSkinHandler.SetCharacterSkin(player, savedCharacter);
         VoiceHandler.JoinGlobalVoiceChannel(player);
         SetCharacterDbDataToPlayer(player, savedCharacter);
+        player.Emit("Client:Character:SelectedCharacter");
     }
 
     private static void SetCharacterDbDataToPlayer(MyPlayer player, Character character)
