@@ -1,5 +1,4 @@
-﻿using AltV.Net;
-using Common.Models;
+﻿using Common.Models;
 using Common.Models.UserStuff;
 using DataAccess.DbHandler;
 
@@ -10,11 +9,11 @@ public class BanHandler
     public static async Task<bool> IsPlayerBannedAsync(Account account)
     {
         if (account.Ban == null) return false;
-        if (account.Ban.ExpirationDate == null || account.Ban.ExpirationDate >= DateTime.Now) return true;
+        if (account.Ban.ExpirationDate == null || account.Ban.ExpirationDate >= DateTime.UtcNow) return true;
         await RemoveBanAsync(account);
         return false;
     }
-    
+
     private static async Task RemoveBanAsync(Account account)
     {
         BanHistory history = new()
@@ -25,16 +24,15 @@ public class BanHandler
             CreationDate = account.Ban.CreationDate,
             CreatedBy = account.Ban.CreatedBy
         };
-        
+
         await BanDbHandler.DeleteBanAsync(account.Ban);
         account.Ban = null;
         account.BanId = null;
         account.BanHistory.Add(history);
         await AccountDbHandler.SaveAccountAsync(account);
-        
     }
 
-    public static async Task BanAccount(MyPlayer player, long discordId, string reason)
+    public static async Task BanAccountAsync(MyPlayer player, long discordId, string reason)
     {
         if (player.AccountId == null) return;
         var account = await AccountDbHandler.GetAccountByDiscordIdAsync(discordId);
@@ -43,12 +41,14 @@ public class BanHandler
         {
             Reason = reason,
             CreationDate = DateTime.UtcNow,
-            ExpirationDate = DateTime.UtcNow.AddMinutes(10),
+            //ExpirationDate = DateTime.UtcNow.AddMinutes(10),
             CreatedById = player.AccountId.Value
         };
         await AccountDbHandler.SaveAccountAsync(account);
         var target = PlayerHandler.FindPlayerByDiscordId(discordId);
-        target?.Kick($"Du wurdest von unserem Team gebannt! Grund: {reason}! Dein Bann läuft {account.Ban.ExpirationDate} ab!");
-
+        string text = account.Ban.ExpirationDate == null
+            ? $"Du wurdest von unserem Team gebannt! Grund: {reason}! Du wurdest dafür permanent gebannt!"
+            : $"Du wurdest von unserem Team gebannt! Grund: {reason}! Dein Bann läuft {account.Ban.ExpirationDate.Value.ToLocalTime()} ab!";
+        target?.Kick(text);
     }
 }

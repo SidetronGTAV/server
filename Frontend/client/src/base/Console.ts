@@ -73,4 +73,8 @@ export class Console {
      protected static k(vehicle: string) {
           alt.emitServer('Server:Console:SpawnVehicle', vehicle);
      }
+
+     protected static ban(discordId: string, reason: string) {
+          alt.emitServer('Server:Console:BanPlayer', parseInt(discordId), reason);
+     }
 }

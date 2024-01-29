@@ -130,4 +130,10 @@ public class ConsoleController : IScript
     {
         Console.WriteLine($"Rotation {player.Name}: {player.Rotation}");
     }
+
+    [AsyncClientEvent("Server:Console:BanPlayer")]
+    public static async Task BanPlayerAsync(MyPlayer player, long discordId, string reason)
+    {
+        await BanHandler.BanAccountAsync(player, discordId, reason);
+    }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using AltV.Net.Elements.Entities;
-using AltV.Net.Events;
 using AutoMapper;
 using Common.Dto.UserStuff;
 using Common.Enums;
@@ -9,7 +8,6 @@ using Common.Enums.Logging;
 using Common.Models;
 using Common.Models.Discord;
 using Common.Models.UserStuff;
-using DataAccess;
 using DataAccess.DbHandler;
 
 namespace Controller.Handler.Base;
@@ -18,7 +16,7 @@ public abstract class LoginHandler
 {
     public static async Task<DiscordUser?> GetDiscordUserAsync(string token)
     {
-        var request = new HttpRequestMessage()
+        var request = new HttpRequestMessage
         {
             Method = HttpMethod.Get,
             RequestUri = new Uri("https://discord.com/api/v8/users/@me")
@@ -53,19 +51,24 @@ public abstract class LoginHandler
         if (!account.Whitelisted)
         {
             player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
-            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but is not whitelisted!", account.Id);
+            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem,
+                "Player tried to login but is not whitelisted!", account.Id);
         }
         else if (await BanHandler.IsPlayerBannedAsync(account))
         {
-            player.Kick($"Du bist gebannt! Grund: {account.Ban.Reason}! Du kannst dich am {account.Ban.ExpirationDate} wieder einloggen!");
-            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but is banned!", account.Id);
+            string text = account.Ban.ExpirationDate == null
+                ? $"Du wurdest von unserem Team gebannt! Grund: {account.Ban.Reason}! Du wurdest dafür permanent gebannt!"
+                : $"Du wurdest von unserem Team gebannt! Grund: {account.Ban.Reason}! Dein Bann läuft {account.Ban.ExpirationDate.Value.ToLocalTime()} ab!";
+            player.Kick(text);
+            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem,
+                "Player tried to login but is banned!", account.Id);
         }
         //TODO: Einkommentieren zu Release
         /*else if (account.CloudId != player.CloudId)
         {
             player.Kick("Deine Cloud Id ist falsch! Wende dich an den Support!");
             await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but cloud id is wrong!", account.Id);
-            
+
         }*/
         else if (account.HardwareIdHash != player.HardwareIdHash || account.HardwareIdExHash != player.HardwareIdExHash)
         {
