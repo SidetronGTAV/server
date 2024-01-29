@@ -55,6 +55,11 @@ public abstract class LoginHandler
             player.Kick("Du bist nicht gewhitelistet! Wende dich an den Support!");
             await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but is not whitelisted!", account.Id);
         }
+        else if (await BanHandler.IsPlayerBannedAsync(account))
+        {
+            player.Kick($"Du bist gebannt! Grund: {account.Ban.Reason}! Du kannst dich am {account.Ban.ExpirationDate} wieder einloggen!");
+            await LogHandler.LogAsync(LogType.Information, LogSystemType.LoginSystem, "Player tried to login but is banned!", account.Id);
+        }
         //TODO: Einkommentieren zu Release
         /*else if (account.CloudId != player.CloudId)
         {

@@ -27,4 +27,9 @@ public class Account : IdBase
 
     public int MaxCharacters { get; set; }
     
+    public int? BanId { get; set; }
+    public Ban Ban { get; set; }
+    
+    public List<BanHistory> BanHistory { get; set; }
+    
 }

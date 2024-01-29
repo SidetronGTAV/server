@@ -1,8 +1,4 @@
-﻿using AltV.Net;
-using Common.Models;
-using Common.Models.Base;
-using Common.Models.Discord;
-using Common.Models.UserStuff;
+﻿using Common.Models.UserStuff;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.DbHandler;
@@ -13,6 +9,8 @@ public class AccountDbHandler
     {
         await using var db = new DbContext();
         return await db.Accounts.Include(a => a.Characters.OrderBy(ch => ch.Id))
+            .Include(a => a.Ban)
+            .Include(a => a.BanHistory)
             .FirstOrDefaultAsync(x => x.DiscordId == discordId);
     }
 

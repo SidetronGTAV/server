@@ -35,7 +35,7 @@ public class LoginController : IScript
             return;
         }
 
-        var findExistingPlayer = (MyPlayer?)Alt.GetAllPlayers().FirstOrDefault(p => ((MyPlayer)p).AccountDiscordId == discordUser.id);
+        var findExistingPlayer = PlayerHandler.FindPlayerByDiscordId(discordUser.id);
 
         if (findExistingPlayer != null)
         {

@@ -1,16 +1,12 @@
-﻿using System.Threading.Channels;
-using AltV.Net;
-using AltV.Net.Data;
-using AltV.Net.Elements.Entities;
+﻿using AltV.Net.Elements.Entities;
 using AltV.Net.Enums;
-using AltV.Net.Events;
 using Common.Enums;
 using Common.Enums.Logging;
 using Common.Models;
 using Controller.Handler.Base.CharacterStuff;
 using Controller.Utility;
-using DataAccess;
 using DataAccess.DbHandler;
+using static AltV.Net.Alt;
 
 namespace Controller.Handler.Base;
 
@@ -49,5 +45,11 @@ public static class PlayerHandler
 
         await CharacterHandler.SetCharacterUnconsciousAsync(player);
         player.Emit("Client:DeadHandler:Dead");
+    }
+
+    public static MyPlayer? FindPlayerByDiscordId(long discordId)
+    {
+        return GetAllPlayers().Cast<MyPlayer>().FirstOrDefault(p => p.AccountDiscordId == discordId && p.Exists);
+        
     }
 }

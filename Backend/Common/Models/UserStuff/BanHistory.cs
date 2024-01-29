@@ -2,15 +2,15 @@
 
 namespace Common.Models.UserStuff;
 
-public class Ban : IdBase
+public class BanHistory: IdBase
 {
-    public string Reason { get; set; }
+    public Account Account { get; set; }
     
-    public DateTime CreationDate { get; set; }
+    public string Reason { get; set; }
     
     public DateTime? ExpirationDate { get; set; }
     
-    public int CreatedById { get; set; }
+    public DateTime CreationDate { get; set; }
     
     public Account CreatedBy { get; set; }
 }
