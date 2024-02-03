@@ -43,6 +43,10 @@ export class Console {
           alt.emitServer('Server:Console:TpToMe', parseInt(id));
      }
 
+     protected static tptopos(x: string, y: string, z: string): void {
+          alt.emitServer('Server:Console:TpToPos', parseFloat(x), parseFloat(y), parseFloat(z));
+     }
+
      protected static weapon(weapon: string): void {
           alt.emitServer('Server:Console:GiveWeapon', weapon);
      }
@@ -76,5 +80,21 @@ export class Console {
 
      protected static ban(discordId: string, reason: string) {
           alt.emitServer('Server:Console:BanPlayer', parseInt(discordId), reason);
+     }
+
+     protected static dbvehicle(model: string) {
+          alt.emitServer('Server:Console:CreateDbVehicle', model);
+     }
+
+     protected static vehintogarage(garageName: string) {
+          alt.emitServer('Server:Console:VehicleIntoGarage', garageName);
+     }
+
+     protected static vehoutofgarage(vehicleId: string) {
+          alt.emitServer('Server:Console:VehicleOutOfGarage', parseInt(vehicleId));
+     }
+
+     protected static rotveh() {
+          alt.emitServer('Server:Console:RotationVehicle');
      }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using AltV.Net.Async;
+using AltV.Net.Data;
 using AltV.Net.Elements.Entities;
 using AltV.Net.Enums;
 using Common.Dto.UserStuff;
@@ -10,6 +11,7 @@ using Common.Models.UserStuff;
 using Common.Models.UserStuff.CharacterSkin;
 using Controller.Utility;
 using DataAccess.DbHandler;
+using Position = Common.Models.Base.Position;
 
 namespace Controller.Handler.Base.CharacterStuff;
 
@@ -19,10 +21,7 @@ public abstract class CharacterHandler
     {
         var dbCharacter = await CharacterDbHandler.GetCharacterByIdAsync(characters[0].Id);
 
-        if (dbCharacter == null)
-        {
-            throw new NullReferenceException("Character is null");
-        }
+        if (dbCharacter == null) throw new NullReferenceException("Character is null");
 
         CharacterSkinHandler.SetCharacterSkin(player, dbCharacter);
 
@@ -35,25 +34,19 @@ public abstract class CharacterHandler
         var dbCharacter = await CharacterDbHandler.GetCharacterByIdAsync(id);
 
         if (dbCharacter?.AccountId != player.AccountId)
-        {
             //TODO: Ban User
             return;
-        }
 
-        if (dbCharacter == null)
-        {
-            throw new NullReferenceException("Character is null");
-        }
+        if (dbCharacter == null) throw new NullReferenceException("Character is null");
 
         CharacterSkinHandler.SetCharacterSkin(player, dbCharacter);
         SetCharacterDbDataToPlayer(player, dbCharacter);
         VoiceHandler.JoinGlobalVoiceChannel(player);
-        if (player.IsCharacterUnconscious)
-        {
-            player.Health = 0;
-        }
+        if (player.IsCharacterUnconscious) player.Health = 0;
+
+        dbCharacter.LastLoginAt = DateTime.UtcNow;
+        await CharacterDbHandler.SaveCharacterAsync(dbCharacter);
         
-        //TODO: Implement Hunger and Thirst System
         player.Emit("Client:Character:SelectedCharacter");
     }
 
@@ -62,15 +55,10 @@ public abstract class CharacterHandler
         var dbCharacter = await CharacterDbHandler.GetCharacterByIdAsync(id);
 
         if (dbCharacter?.AccountId != player.AccountId)
-        {
             //TODO: Ban User
             return;
-        }
 
-        if (dbCharacter == null)
-        {
-            throw new NullReferenceException("Character is null");
-        }
+        if (dbCharacter == null) throw new NullReferenceException("Character is null");
 
         CharacterSkinHandler.SetCharacterSkin(player, dbCharacter);
     }
@@ -88,18 +76,19 @@ public abstract class CharacterHandler
             Birthday = birthday,
             CharacterSkinId = savedCharacterSkin.Id,
             AccountId = (int)player.AccountId!,
-            Position = new Common.Models.Base.Position
+            Position = new Position
             {
                 X = GlobalPosition.NewPlayerSpawnPosition.X, Y = GlobalPosition.NewPlayerSpawnPosition.Y,
                 Z = GlobalPosition.NewPlayerSpawnPosition.Z
             },
+            LastLoginAt = DateTime.UtcNow
         };
 
-        var characterId = await CharacterDbHandler.SaveCharacterAsync(character);
+        int characterId = await CharacterDbHandler.SaveCharacterAsync(character);
         var savedCharacter = await CharacterDbHandler.GetCharacterByIdAsync(characterId);
-        player.Characters.Add(new CharacterSmallDto()
+        player.Characters.Add(new CharacterSmallDto
             { Fullname = $"{savedCharacter!.Firstname} {savedCharacter.Lastname}", Id = savedCharacter.Id });
-
+        
         CharacterSkinHandler.SetCharacterSkin(player, savedCharacter);
         VoiceHandler.JoinGlobalVoiceChannel(player);
         SetCharacterDbDataToPlayer(player, savedCharacter);
@@ -150,10 +139,10 @@ public abstract class CharacterHandler
     private static async Task<IVehicle> CreateVehicleAndSetPlayerAndVehicleInPrivateDimensionAsync(IWorldObject player)
     {
         if (player == null) throw new ArgumentNullException(nameof(player));
-        var privateDimension = DimensionHandler.GetPrivateDimension();
+        int privateDimension = DimensionHandler.GetPrivateDimension();
         player.Dimension = privateDimension;
         var vehicle = await AltAsync.CreateVehicle(VehicleModel.Ambulance, GlobalPosition.PlayerDiedSpawnPosition,
-            new AltV.Net.Data.Rotation(0, 0, -1.929f));
+            new Rotation(0, 0, -1.929f));
         vehicle.Dimension = privateDimension;
         return vehicle;
     }

@@ -8,6 +8,7 @@ import { CharCreator } from './Character/Creator.js';
 import { DeadHandler } from './base/Handling/DeadHandler.js';
 import { Voice } from './base/Voice.js';
 import Vehicle from './base/Vehicle.js';
+import { Control } from './Utilities/Control.js';
 
 alt.on('connectionComplete', async () => {
      alt.log('ConnectionComplete');
@@ -20,7 +21,9 @@ alt.on('connectionComplete', async () => {
      new CharCreator();
      new DeadHandler();
      new Voice();
+     new Control();
      setDefaultData();
+     allIntervalInstance();
      await Login.getOAuthToken();
 });
 
@@ -92,14 +95,16 @@ function setDefaultData() {
      alt.setConfigFlag(alt.ConfigFlag.DisableIdleCamera, true);
      alt.setConfigFlag(alt.ConfigFlag.DisableVehicleEngineShutdownOnLeave, true);
      native.setAudioFlag('DisableFlightMusic', true);
-     alt.setInterval(() => {
-          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToDriversSeat, true);
-          native.setPedConfigFlag(alt.Player.local.scriptID, alt.PedConfigFlag.DisableStartingVehicleEngine, true);
-          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.AllowAutoShuffleToDriversSeat, false);
-          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToTurretSeat, true);
-          native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.DontShuffleInVehicleToMakeRoom, true);
-          native.invalidateCinematicVehicleIdleMode();
-     }, 25000);
+     alt.setInterval(() => allIntervalInstance, 25000);
+}
+
+function allIntervalInstance() {
+     native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToDriversSeat, true);
+     native.setPedConfigFlag(alt.Player.local.scriptID, alt.PedConfigFlag.DisableStartingVehicleEngine, true);
+     native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.AllowAutoShuffleToDriversSeat, false);
+     native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.PreventAutoShuffleToTurretSeat, true);
+     native.setPedConfigFlag(alt.Player.local, alt.PedConfigFlag.DontShuffleInVehicleToMakeRoom, true);
+     native.invalidateCinematicVehicleIdleMode();
 }
 
 const islandCenter = new alt.Vector3(4840.571, -5174.425, 2.0);

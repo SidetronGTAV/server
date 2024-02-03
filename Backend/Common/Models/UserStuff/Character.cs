@@ -22,4 +22,6 @@ public class Character : IdBase
     public DateTime? AtCharacterUnconscious { get; set; }
 
     public CharacterSkin.CharacterSkin CharacterSkin { get; set; }
+    
+    public DateTime LastLoginAt { get; set; }
 }

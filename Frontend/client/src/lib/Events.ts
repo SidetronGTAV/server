@@ -57,4 +57,8 @@ export default abstract class Events {
           OpenHud: 'Webview:HUD:Show',
           CloseHud: 'Webview:HUD:Hide',
      };
+
+     public static Control = {
+          PressedE: 'Server:Control:PressedE'
+     }
 }
