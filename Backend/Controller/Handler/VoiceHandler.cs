@@ -48,7 +48,7 @@ public class VoiceHandler : IScript
         if (player.IsCharacterDead || player.IsCharacterUnconscious) return;
 
         var distance = (VoiceVolume)distanceInt;
-        
+
         switch (distance)
         {
             case VoiceVolume.Mute:
@@ -73,7 +73,7 @@ public class VoiceHandler : IScript
                 if (!MegaphoneRangeChannel.IsPlayerMuted(player)) MegaphoneRangeChannel.MutePlayer(player);
                 break;
         }
-        
+
         player.Emit("Server:Voice:UpdateMicrophoneLevel", (int)distance);
     }
 

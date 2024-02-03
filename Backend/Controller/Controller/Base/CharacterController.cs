@@ -1,11 +1,8 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using AltV.Net;
 using AltV.Net.Async;
-using AltV.Net.Shared.Elements.Entities;
 using Common.Models;
 using Common.Models.UserStuff.CharacterSkin;
-using Controller.Handler.Base;
 using Controller.Handler.Base.CharacterStuff;
 
 namespace Controller.Controller.Base;
@@ -38,18 +35,13 @@ public class CharacterController : IScript
     {
         if (player.IsInCharacterId != 0 ||
             (player.MaxCharacters <= player.Characters.Count && player.MaxCharacters != -1))
-        {
             //TODO: Ban User
             return;
-        }
 
         var deserializedCharacterSkin = JsonSerializer.Deserialize<CharacterSkin>(characterSkin);
         var birthday = JsonSerializer.Deserialize<DateTime>(birthdayString).Date;
 
-        if (deserializedCharacterSkin == null)
-        {
-            throw new NullReferenceException("CharacterSkin is null");
-        }
+        if (deserializedCharacterSkin == null) throw new NullReferenceException("CharacterSkin is null");
 
         await CharacterHandler.CreateCharacterAsync(player, deserializedCharacterSkin, firstname, lastname, birthday);
     }
@@ -58,10 +50,8 @@ public class CharacterController : IScript
     {
         if (player.IsInCharacterId != 0 ||
             (player.MaxCharacters <= player.Characters.Count && player.MaxCharacters != -1))
-        {
             //TODO: Ban User
             return;
-        }
 
         player.Emit("Client:Character:Create");
     }

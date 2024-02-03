@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using AltV.Net;
+﻿using AltV.Net;
 using AltV.Net.Async;
 using AltV.Net.Async.Elements.Entities;
-using AltV.Net.Elements.Entities;
 using Common.Dto.UserStuff;
 using Common.Enums;
 
@@ -10,6 +8,10 @@ namespace Common.Models;
 
 public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
 {
+    public MyPlayer(ICore core, IntPtr nativePointer, uint id) : base(core, nativePointer, id)
+    {
+    }
+
     public int? AccountId { get; set; }
 
     public long AccountDiscordId { get; set; }
@@ -30,9 +32,8 @@ public class MyPlayer : AsyncPlayer, IAsyncConvertible<MyPlayer>
 
     public List<CharacterSmallDto> Characters { get; set; }
 
-    public MyPlayer(ICore core, IntPtr nativePointer, uint id) : base(core, nativePointer, id)
+    public new MyPlayer ToAsync(IAsyncContext _)
     {
+        return this;
     }
-
-    public new MyPlayer ToAsync(IAsyncContext _) => this;
 }

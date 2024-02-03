@@ -10,13 +10,9 @@ public class CharacterSkinHandler
     public static void SetCharacterSkin(IPlayer player, Character character)
     {
         if (character.CharacterSkin.Sex == CharacterSex.Female)
-        {
             player.Model = (uint)PedModel.FreemodeFemale01;
-        }
         else
-        {
             player.Model = (uint)PedModel.FreemodeMale01;
-        }
 
 
         //---------Initialize----------//

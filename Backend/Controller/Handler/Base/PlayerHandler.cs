@@ -24,10 +24,7 @@ public static class PlayerHandler
 
     public static void HandlePlayerDisconnect(MyPlayer player)
     {
-        if (player.IsCharacterDead)
-        {
-            player.Position = GlobalPosition.HospitalSpawnPosition;
-        }
+        if (player.IsCharacterDead) player.Position = GlobalPosition.HospitalSpawnPosition;
 
         VoiceHandler.RemoveFromAllVoiceChannels(player);
         CharacterDbHandler.SaveCharacterPosition(player.IsInCharacterId, player.Position);
@@ -50,6 +47,5 @@ public static class PlayerHandler
     public static MyPlayer? FindPlayerByDiscordId(long discordId)
     {
         return GetAllPlayers().Cast<MyPlayer>().FirstOrDefault(p => p.AccountDiscordId == discordId && p.Exists);
-        
     }
 }

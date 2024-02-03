@@ -1,10 +1,7 @@
 ﻿using AltV.Net.Data;
-using Common.Dto.UserStuff;
-using Common.Models;
 using Common.Models.UserStuff;
 using Common.Models.UserStuff.CharacterSkin;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DataAccess.DbHandler;
 

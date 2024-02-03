@@ -4,10 +4,10 @@ using Common.Models;
 
 namespace Common.Factories;
 
-public class MyVehicleFactory: IEntityFactory<IVehicle>
+public class MyVehicleFactory : IEntityFactory<IVehicle>
+{
+    public IVehicle Create(ICore core, IntPtr entityPointer, uint id)
     {
-        public IVehicle Create(ICore core, IntPtr entityPointer, uint id)
-        {
-            return new MyVehicle(core, entityPointer, id);
-        }
+        return new MyVehicle(core, entityPointer, id);
+    }
 }

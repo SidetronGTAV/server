@@ -6,6 +6,7 @@ namespace Common.Models.Base;
 
 public class Log : IdBase
 {
+    public DateTime Date = DateTime.UtcNow;
     public LogType Type { get; set; }
 
     public LogSystemType System { get; set; }
@@ -13,8 +14,6 @@ public class Log : IdBase
     public string CallerMemberName { get; set; }
 
     public string Message { get; set; }
-
-    public DateTime Date = DateTime.UtcNow;
 
     public int? AccountId { get; set; }
 

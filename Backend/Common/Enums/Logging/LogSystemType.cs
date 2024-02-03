@@ -7,5 +7,5 @@ public enum LogSystemType
     LoginSystem,
     AccountSystem,
     CharacterSystem,
-    VoiceSystem,
+    VoiceSystem
 }

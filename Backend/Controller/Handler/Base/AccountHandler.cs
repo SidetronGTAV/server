@@ -9,7 +9,7 @@ public abstract class AccountHandler
 {
     public static async Task<Account> CreateAccountAsync(MyPlayer player, DiscordUser discordUser)
     {
-        var account = new Account()
+        var account = new Account
         {
             Id = 0,
             DiscordId = discordUser.id,

@@ -10,6 +10,9 @@ public class RGBA
     public byte G { get; set; }
     public byte B { get; set; }
     public byte A { get; set; }
-    
-    public static implicit operator Rgba(RGBA rgba) => new (rgba.R, rgba.G, rgba.B, rgba.A);
+
+    public static implicit operator Rgba(RGBA rgba)
+    {
+        return new Rgba(rgba.R, rgba.G, rgba.B, rgba.A);
+    }
 }

@@ -2,7 +2,6 @@
 using Common.Enums;
 using Common.Enums.Logging;
 using Common.Models.Base;
-using Common.Models.UserStuff;
 using DataAccess.DbHandler;
 
 namespace Controller.Handler.Base;
